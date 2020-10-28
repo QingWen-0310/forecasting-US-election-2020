@@ -21,57 +21,73 @@ census_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/cens
 
 ```
 
-# Forecasting 2020 US Presidential Election Result
-
-## Name(s) of Author(s) 
-## Date
-
-
 # Model
+The interest for our study is to predict the proportion of vote Donald Trump would get in the upcoming 2020 presidential election. To accomplish this, We would adopt a logistic regression model with the binary response variable indicating people's will whether to vote for Trump. The model is built using @citeR.
 
-Here we are interested in predicting the popular vote outcome of the 2020 American federal election (include citation). To do this we are employing a post-stratification technique. In the following sub-sections I will describe the model specifics and the post-stratification calculation.
-
+In addition, we are using the multi-regression post-stratification(MRP) technique to arrive at the estimate of our interest. Detailed procedure would be described in the subsection: Post-Stratification. Data sets used are the survey data collected by the Voter Study Group(@citeSurveyData) and the census data(@citeCensusData) collected by the IPUMS USA.
 
 ## Model Specifics
-I will (incorrectly) be using a linear regression model to model the proportion of voters who will vote for Donald Trump. This is a naive model. I will only be using age, which is recorded as a numeric variable, to model the probability of voting for Donald Trump. The simple linear regression model I am using is:
 
-$$ y = \beta_0+\beta_1  x_{age} + \epsilon$$
+As mentioned previously, we would adopt a logistic regression model to find the estimate for the proportion of voters who will vote for Trump. We are specifically choosing variables of *employment status*, *gender*, *race*, *household income*, *education level* and *age group*. 
 
-Where $y$ represents the proportion of voters who will vote for Donald Trump. Similarly, $\beta_0$ represents the intercept of the model, and is the probability of voting for Donald Trump at age 0. Additionally, $\beta_1$ represents the slope of the model. So, for everyone one unit increase in age, we expect a $\beta_1$ increase in the probability of voting for Donald Trump.
+The model is defined by: $$log(\frac{\hat{p}}{1-\hat{p}}) = \hat{\beta_0} + \hat{\beta_1} *x_{employment} +\hat{\beta_2}*x_{gender} +\hat{\beta_3}*x_{race}+\hat{\beta_4}*x_{income} + \hat{\beta_5}*x_{education} + \hat{\beta_6}*x_{age}$$, with each $x_{variable}$ representing corresponding predictor variable, and each $\hat{\beta_i}$ representing the relative change in log odds as the value for the predictor variable increases by an additional unit. Furthermore, $log(\frac{\hat{p}}{1-\hat{p}})$ is the defined log odds rather than probability, so transformation on the log odds would be needed to find the corresponding $\hat{p}$.
 
 ```{r, include=FALSE}
+attach(survey_data)
 
-# Creating the Model
-model <- lm(vote_trump ~ age, 
-            data=survey_data)
+# build the model
+logitm <- glm(vote_trump~as.factor(employment)+as.factor(gender)+as.factor(race_ethnicity)+as.factor(household_income)+as.factor(education)+as.factor(age_group), family = "binomial")
 
-# Model Results (to Report in Results section)
-# summary(model)
-# OR
-# broom::tidy(model)
-
+detach(survey_data)
 ```
 
 ## Post-Stratification 
 
-In order to estimate the proportion of voters who will vote for Donald Trump I need to perform a post-stratification analysis. Here I create cells based off different ages. Using the model described in the previous sub-section I will estimate the proportion of voters in each age bin. I will then weight each proportion estimate (within each bin) by the respective population size of that bin and sum those values and divide that by the entire population size. 
+Obviously it would be hard to obtain a census data on how each US resident is going to vote in the election, as the data collecting process would be extremely costly and time-consuming. With the sample data collected which consists of 6,479 observations, we want to form a representative sample to yield a meaningful analysis that could apply well to the general population. The sample size we obtained is really small compared to the total population of US citizens. To compensate for the potential non-representativeness, we want to adopt the post-stratification technique.
+
+We intend to choose the number of variables so that we can obtain a sample as representative as possible meanwhile not over-complicating the model. So we limit the number of variables to 6 but they are all sound demographics that could serve to split the population and produce meaningful results. For example, the *gender* and *age group* are both basic information pertaining to a certain individual. Variables like *employment status* and *education level* contain information more specific(i.e. more unique features to define a person's demographic than basic information does). Thus, we use the selected variables to split the cells. 
+
+What post-stratification allows us to do is that we can partition the population data into lots of different demographic cells and use the model built from the survey data to estimate the response variable in each cell(we would be using the logistic model as described in the previous section). Then, by weighing each cell by its relative proportion to the whole population, we could yield an estimate for our ultimate goal. The post-stratification estimate is defined as : $${\hat{y}}^{PS} = \frac{\sum{N_j{\hat{y_j}}}}{\sum{N_j}}$$ , where $\hat{y_j}$ is the estimate in each cell and $N_j$ is the population size in the jth demographic cell.
+
 
 ```{r, include=FALSE}
 
-# Here I will perform the post-stratification calculation
-census_data$estimate <-
-  model %>%
+# Find estimate for log odds for each cell
+census_data$logodds_estimate <-
+  logitm %>%
   predict(newdata = census_data)
 
+# convert the log odds into probabilities
+census_data$estimate <-
+  exp(census_data$logodds_estimate)/(1+exp(census_data$logodds_estimate))
+
+# yield estimates for each cell than aggregate to find the final estimate
 census_data %>%
   mutate(alp_predict_prop = estimate*n) %>%
   summarise(alp_predict = sum(alp_predict_prop)/sum(n))
 
-
 ```
 
 
+## Notes on Data Cleaning Process
+In order to let the model built on the survey data to successfully yield desired estimates, we need to clean up both the survey data and census data so that each variable we choose contains the same levels of categorical values. For instance, we would like to have the *gender* variable in both the survey and census data to have two levels, namely *male* and *female*. So we would need to ensure that this is indeed the case in both data sets, so the model built from the survey data is be able to predict the estimates based on the input of census data. 
+
+Some of the cleaning process worths mentioning are:
+
+1.
+
+2.
+
+3.
+
+
+
 # Results
+
+```{r, message=FALSE, echo=FALSE}
+# model output in a tidy table
+broom::tidy(logitm)
+```
 
 Here you will include all results. This includes descriptive statistics, graphs, figures, tables, and model results. Please ensure that everything is well formatted and in a report style. You must also provide an explanation of the results in this section. 
 

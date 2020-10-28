@@ -1,6 +1,6 @@
 #### Preamble ####
 # Purpose: Prepare and clean the survey data downloaded from https://www.voterstudygroup.org/publication/nationscape-data-set
-# Author: Ke Deng, Yongpeng Hua, Hailey Huang, Qing Wen
+# Author: Ke Deng, Yongpeng Hua, Qihui Huang, Qing Wen
 # Data: 2 November 2020
 # Contact: qing.wen@mail.utoronto.ca
 # License: MIT
@@ -8,6 +8,7 @@
 #### Workspace setup ####
 library(haven)
 library(tidyverse)
+library(labelled)
 # set to your own path where the data is located
 setwd("C:/Users/10128/Desktop/STA304/Problem Set 3")
 

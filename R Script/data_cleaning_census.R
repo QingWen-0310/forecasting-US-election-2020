@@ -1,6 +1,6 @@
 #### Preamble ####
 # Purpose: Prepare and clean the survey data downloaded from https://doi.org/10.18128/D010.V10.0
-# Author: Ke Deng, Yongpeng Hua, Hailey Huang, Qing Wen
+# Author: Ke Deng, Yongpeng Hua, Qihui Huang, Qing Wen
 # Date: 2 November 2020
 # Contact: qing.wen@mail.utoronto.ca
 # License: MIT
@@ -11,6 +11,7 @@
 #### Workspace setup ####
 library(haven)
 library(tidyverse)
+library(labelled)
 # Read in the raw data.
 setwd("C:/Users/10128/Desktop/STA304/Problem Set 3")
 raw_data <- read_dta("usa_00001.dta")
@@ -79,6 +80,7 @@ reduced_data <- reduced_data %>% rename(race_ethnicity = race)
 reduced_data <- reduced_data %>% 
   mutate(race_ethnicity = ifelse(race_ethnicity == "two major races" | race_ethnicity == "three or more major races", "other race, nec", as.character(race_ethnicity)))
 
+# rename some variables
 reduced_data <- reduced_data %>% rename(age_group = age)
 reduced_data <- reduced_data %>% rename(employment = empstat)
 
@@ -87,7 +89,8 @@ reduced_data <- reduced_data %>% filter(!age_group == "under 18")
 
 reduced_data <-
   reduced_data %>% 
-  count(household_income, employment, age_group, race_ethnicity) 
+  count(gender,household_income, employment, age_group, race_ethnicity) %>% 
+  group_by(gender,household_income, employment, age_group, race_ethnicity)
 
 
 # Saving the census data as a csv file in my
