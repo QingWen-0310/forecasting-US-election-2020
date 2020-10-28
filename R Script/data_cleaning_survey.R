@@ -40,7 +40,7 @@ reduced_data_survey <-
          age)
 
 # mutate a binary variable for our outcome
-reduced_data_survey<-
+reduced_data_survey <-
   reduced_data_survey %>%
   mutate(vote_trump = 
            ifelse(vote_2020=="Donald Trump", 1, 0))
@@ -90,6 +90,21 @@ reduced_data_survey <- reduced_data_survey %>%
     race_ethnicity == "Pacific Islander (Other)" ~ "other asian or pacific islander",
     race_ethnicity == "Some other race" ~ "other race, nec"
   )) 
+
+reduced_data_survey <- reduced_data_survey %>% 
+  mutate(education = case_when(
+    education == "Doctorate degree" ~ "5+ years of college",
+    education == "Masters degree" ~ "5+ years of college",
+    education == "Completed some graduate, but no degree" ~ "5+ years of college",
+    education == "Associate Degree" ~ "4 years of college",
+    education == "Completed some college, but no degree" ~ "4 years of college",
+    education == "College Degree (such as B.A., B.S.)" ~ "4 years of college",
+    education == "Other post high school vocational training" ~ "1 years of college",
+    education == "High school graduate" ~ "Grade 12",
+    education == "Completed some high school" ~ "Grade 11",
+    education == "Middle School - Grades 4 - 8" ~ "Grade 5, 6, 7, or 8",
+    education == "3rd Grade or less" ~ "N/A or no schooling"))
+
 
 
 
