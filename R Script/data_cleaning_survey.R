@@ -105,9 +105,6 @@ reduced_data_survey <- reduced_data_survey %>%
     education == "Middle School - Grades 4 - 8" ~ "Grade 5, 6, 7, or 8",
     education == "3rd Grade or less" ~ "N/A or no schooling"))
 
-
-
-
 # rename
 reduced_data_survey <- 
   reduced_data_survey %>% 
