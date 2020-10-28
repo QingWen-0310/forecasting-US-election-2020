@@ -110,6 +110,7 @@ reduced_data_survey <-
   reduced_data_survey %>% 
   rename(age_group = age)
 
+
 # Saving the survey/sample data as a csv file in my
 # working directory
 write_csv(reduced_data_survey, "C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
