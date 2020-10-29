@@ -62,7 +62,7 @@ census_data$estimate <-
   exp(census_data$logodds_estimate)/(1+exp(census_data$logodds_estimate))
 
 # yield estimates for each cell than aggregate to find the final estimate
-census_data %>%
+yps <- census_data %>%
   mutate(alp_predict_prop = estimate*n) %>%
   summarise(alp_predict = sum(alp_predict_prop)/sum(n))
 
@@ -87,6 +87,7 @@ Some of the cleaning process worths mentioning are:
 ```{r, message=FALSE, echo=FALSE}
 # model output in a tidy table
 broom::tidy(logitm)
+yps
 ```
 
 Here you will include all results. This includes descriptive statistics, graphs, figures, tables, and model results. Please ensure that everything is well formatted and in a report style. You must also provide an explanation of the results in this section. 
@@ -95,7 +96,17 @@ Please ensure that everything is well labelled. So if you have multiple histogra
 
 # Discussion
 
-Here you will summarize the previous sections and discuss conclusions drawn from the results. Make sure to elaborate and connect your analysis to the goal of the study.
+## Summary
+In this study, we focus on the MRP technique to produce an estimate for the proportion of voters intending to vote for Donald Trump in the upcoming 2020 presidential election. We start off by reading in and cleaning the survey and census data to ensure that the variables in both data sets contain the same sets of levels for out model to yield prediction. After that, we fit in a logistic regression model to the survey data with the predictor and response variables identified previously. Lastly, we apply this model to the census data which already consists of splitted demographic cells to yield estimate for the proportion of voters in each cell and aggregate our calculation to the population level to obtain the final estimate. A quick glimpse of what the cells look like eventually is as follows:
+
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+# kable(census_data)
+head(census_data)
+```
+
+## Conclusion
+
+discuss conclusions drawn from the results. Make sure to elaborate and connect your analysis to the goal of the study.
 
 ## Weaknesses
 
