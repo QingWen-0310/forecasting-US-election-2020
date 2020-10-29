@@ -75,6 +75,14 @@ reduced_data <-reduced_data %>%
     as.numeric(age) >= 88 ~ "88+"
   ))
 
+# mutate value for gender
+reduced_data <- reduced_data %>% rename(gender = sex)
+reduced_data <- reduced_data %>% 
+  mutate(gender = case_when(
+    gender == "male" ~ "Male",
+    gender == "female"~"Female"
+  ))
+
 # put people with two more races into other race
 reduced_data <- reduced_data %>% rename(race_ethnicity = race)
 reduced_data <- reduced_data %>% 
@@ -83,14 +91,14 @@ reduced_data <- reduced_data %>%
 # rename some variables
 reduced_data <- reduced_data %>% rename(age_group = age)
 reduced_data <- reduced_data %>% rename(employment = empstat)
-reduced_data <- reduced_data %>% rename(gender = sex)
+reduced_data <- reduced_data %>% rename(education = educ)
 
-reduced_data <- reduced_data %>% filter(!age_group == "under 18")
+reduced_data <- reduced_data %>% filter(age_group != "under 18")
 
 reduced_data <-
   reduced_data %>% 
-  count(gender,household_income, employment, age_group, race_ethnicity, educ) %>% 
-  group_by(gender,household_income, employment, age_group, race_ethnicity, educ)
+  count(gender,household_income, employment, age_group, race_ethnicity, education) %>% 
+  group_by(gender,household_income, employment, age_group, race_ethnicity, education)
 
 
 # Saving the census data as a csv file in my
