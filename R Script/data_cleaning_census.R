@@ -28,7 +28,7 @@ reduced_data <-
          age, 
          race, 
          empstat,
-         educ,
+         educd,
          inctot)
 
 # mutate the value for income level so the values match with the ones in survey_data
@@ -61,6 +61,55 @@ reduced_data <- reduced_data %>%
   )) %>% 
   rename(household_income = inctot)
 
+
+#mutate education detailed
+reduced_data <- reduced_data %>% 
+  mutate(educd = case_when(
+    educd == "n/a or no schooling" ~ "3rd Grade or less",
+    educd == "n/a" ~ "3rd Grade or less",
+    educd == "no schooling completed" ~ "3rd Grade or less",
+    educd == "nursery school to grade 4" ~ "3rd Grade or less",
+    educd == "nursery school, preschool" ~ "3rd Grade or less",
+    educd == "kindergarten" ~ "3rd Grade or less",
+    educd == "grade 1, 2, 3, or 4" ~ "3rd Grade or less",
+    educd == "grade 1" ~ "3rd Grade or less",
+    educd == "grade 2" ~ "3rd Grade or less",
+    educd == "grade 3" ~ "3rd Grade or less",
+    educd == "grade 4" ~ "3rd Grade or less",
+    educd == "grade 5, 6, 7, or 8" ~ "Middle School - Grades 4 - 8",
+    educd == "grade 5 or 6" ~ "Middle School - Grades 4 - 8",
+    educd == "grade 5" ~ "Middle School - Grades 4 - 8",
+    educd == "grade 6" ~ "Middle School - Grades 4 - 8",
+    educd == "grade 7" ~ "Middle School - Grades 4 - 8",
+    educd == "grade 8" ~ "Middle School - Grades 4 - 8",
+    educd == "grade 9" ~ "Completed some high school",
+    educd == "grade 10" ~ "Completed some high school",
+    educd == "grade 11" ~ "Completed some high school",
+    educd == "grade 12" ~ "High school graduate",
+    educd == "12th grade, no diploma" ~ "High school graduate",
+    educd == "high school graduate or GED" ~ "High school graduate",
+    educd == "regular high school diploma" ~ "High school graduate",
+    educd == "ged or alternative credential" ~ "Other post high school vocational training",
+    educd == "some college, but less than 1 year" ~ "Completed some college, but no degree",
+    educd == "1 year of college" ~ "Completed some college, but no degree",
+    educd == "1 or more years of college credit, no degree" ~ "Completed some college, but no degree",
+    educd == "2 years of college" ~ "Completed some college, but no degree",
+    educd == "associate's degree, type not specified" ~ "Associate Degree",
+    educd == "associate's degree, occupational program" ~ "Associate Degree",
+    educd == "associate's degree, academic program" ~ "Associate Degree",
+    educd == "3 years of college" ~ "Completed some college, but no degree",
+    educd == "4 years of college" ~ "Completed some college, but no degree",
+    educd == "bachelor's degree" ~ "College Degree (such as B.A., B.S.)",
+    educd == "5+ years of college" ~ "Completed some graduate, but no degree",
+    educd == "6 years of college (6+ in 1960-1970)" ~ "Completed some graduate, but no degree",
+    educd == "7 years of college" ~ "Completed some graduate, but no degree",
+    educd == "8+ years of college" ~ "Completed some graduate, but no degree",
+    educd == "master's degree" ~ "Masters degree",
+    educd == "professional degree beyond a bachelor's degree" ~ "Masters degree",
+    educd == "doctoral degree" ~ "Doctorate degree"))
+
+    
+  
 # mutate value for age
 reduced_data <-reduced_data %>% 
   mutate(age = case_when(
