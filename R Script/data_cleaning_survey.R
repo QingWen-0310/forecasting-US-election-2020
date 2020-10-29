@@ -96,8 +96,8 @@ reduced_data_survey <- reduced_data_survey %>%
     education == "Doctorate degree" ~ "5+ years of college",
     education == "Masters degree" ~ "5+ years of college",
     education == "Completed some graduate, but no degree" ~ "5+ years of college",
-    education == "Associate Degree" ~ "4 years of college",
-    education == "Completed some college, but no degree" ~ "4 years of college",
+    education == "Associate Degree" ~ "3 years of college",
+    education == "Completed some college, but no degree" ~ "2 years of college",
     education == "College Degree (such as B.A., B.S.)" ~ "4 years of college",
     education == "Other post high school vocational training" ~ "1 years of college",
     education == "High school graduate" ~ "Grade 12",
@@ -106,6 +106,7 @@ reduced_data_survey <- reduced_data_survey %>%
     education == "3rd Grade or less" ~ "N/A or no schooling"))
 
 # rename
+
 reduced_data_survey <- 
   reduced_data_survey %>% 
   rename(age_group = age)
