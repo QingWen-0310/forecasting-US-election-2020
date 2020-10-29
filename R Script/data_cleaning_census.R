@@ -89,8 +89,8 @@ reduced_data <- reduced_data %>% filter(!age_group == "under 18")
 
 reduced_data <-
   reduced_data %>% 
-  count(gender,household_income, employment, age_group, race_ethnicity) %>% 
-  group_by(gender,household_income, employment, age_group, race_ethnicity)
+  count(gender,household_income, employment, age_group, race_ethnicity, educ) %>% 
+  group_by(gender,household_income, employment, age_group, race_ethnicity, educ)
 
 
 # Saving the census data as a csv file in my
