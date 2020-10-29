@@ -83,7 +83,7 @@ reduced_data <- reduced_data %>%
 # rename some variables
 reduced_data <- reduced_data %>% rename(age_group = age)
 reduced_data <- reduced_data %>% rename(employment = empstat)
-
+reduced_data <- reduced_data %>% rename(gender = sex)
 
 reduced_data <- reduced_data %>% filter(!age_group == "under 18")
 
