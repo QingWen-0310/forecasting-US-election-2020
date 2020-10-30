@@ -52,7 +52,7 @@ Obviously it would be hard to obtain a census data on how each US citizen is goi
 
 We intend to choose the number of variables so that we can obtain a sample as representative as possible meanwhile not over-complicating the model. So we limit the number of variables to 6 but they are all sound categories that could serve to split the population and produce meaningful results. For example, the *gender* and *age group* are both basic information pertaining to a certain individual. Variables like *employment status* and *education level* contain more specific information(i.e. more unique features to define a person's demographic than basic information does). Thus, we use the selected variables to split the cells. 
 
-What post-stratification allows us to do is that we can partition the population data into lots of different demographic cells using the selected variabels and use the model built from the survey data to estimate the response variable in each cell(we would be using the logistic model as described in the previous section). Then, by weighing each cell by its relative proportion to the whole population, we could yield an estimate for the total proportion of US citizens voting for either Trump and Biden. The post-stratification estimate is defined as : $${\hat{y}}^{PS} = \frac{\sum{N_j{\hat{y_j}}}}{\sum{N_j}}$$, where $\hat{y_j}$ is the estimate in each cell and $N_j$ is the population size in the jth demographic cell. We will use $\hat{y}^{PS}_{Trump}$ to denote the proportion estimate for voting for Trump and $\hat{y}^{PS}_{Biden}$ to denote the proportion estimate for voting for Biden.
+What post-stratification allows us to do is that we can partition the population data into lots of different demographic cells using the selected variables and use the model built from the survey data to estimate the response variable in each cell(we would be using the logistic model as described in the previous section). Then, by weighing each cell by its relative proportion to the whole population, we could yield an estimate for the total proportion of US citizens voting for either Trump and Biden. The post-stratification estimate is defined as : $${\hat{y}}^{PS} = \frac{\sum{N_j{\hat{y_j}}}}{\sum{N_j}}$$, where $\hat{y_j}$ is the estimate in each cell and $N_j$ is the population size in the jth demographic cell. We will use $\hat{y}^{PS}_{Trump}$ to denote the proportion estimate for voting for Trump and $\hat{y}^{PS}_{Biden}$ to denote the proportion estimate for voting for Biden.
 
 
 ```{r, include=FALSE}
@@ -70,7 +70,7 @@ census_data$estimate <-
 yps <- census_data %>%
   mutate(alp_predict_prop = estimate*n) %>%
   summarise(alp_predict = sum(alp_predict_prop)/sum(n))
-
+yps
 
 ### results for voting Biden
 census_data$logodds_estimate_b <-
@@ -85,8 +85,15 @@ census_data$estimate_b <-
 yps_b <- census_data %>%
   mutate(alp_predict_prop_b = estimate_b*n) %>%
   summarise(alp_predict_b = sum(alp_predict_prop_b)/sum(n))
-
+yps_b
 ```
+
+##Result
+In the model output for voting Trump prediction, we get the coefficients for the regression equation, including the parameters of interest like intercepts and slopes for each factor). Estimated intercept for regression equation here is -0.1809. Estimated values for slope parameters vary based on different fields and different cells. Male increases the log odds while female does not have contributions in this cell. Also, unemployed citizens lowered the result as well. In race and ethnicity fields, races except white have lowered the expected change in log odds of Trump winning the election; other factors like education and employment have lowered the log odds as well. People from different age groups contribute to the log odds of Trump winning the election greater or lesser. One thing is worth mentioning is that not all classes contribute to the expected log odds of winning, income of a family only between 200,000 to 249,999 U.S. dollars, 250,000 U.S. dollars above contribute, the others somewhat decrease the log odds. Finally, by extracting the probability from log odds and aggregating estimates from each cell. The estimated probability of Trump winning the election is 0.3897. 
+
+In the logistic model output for voting Biden prediction, we use exactly the same factors to predict. The estimated intercept for the regression model is -0.5952. Contrary to what we got in predicting Trump's winning probability, unemployed/not in labor citizens rises log odds output, and males decline it. Moreover, the race factor contributes but age groups factor decreases the output. College degree and Master degree is likely to increase the odds. For different income groups, only a few groups may lower the odds like income ranging from 175,000 to 199,999 U.S. dollars and above 250,000 U.S. dollars. The estimated probability of voting for Biden more than Trump a little, 0.4062.
+
+The P-value for each factors in both logistic models are less than 0.005.
 
 
 ## Notes on Data Cleaning Process
