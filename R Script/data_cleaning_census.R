@@ -5,7 +5,9 @@
 # Contact: qing.wen@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: 
-# - Need to have downloaded the ACS data
+# - Need to have downloaded the ACS data. In our project wo specifically used usa_00001.dta that includes variables
+# of stateicp, sex, age, race, empstat, educd, inctot as our final selected variables. But some other variables are
+# also included in the raw data.
 
 
 #### Workspace setup ####
@@ -16,11 +18,10 @@ library(labelled)
 setwd("C:/Users/10128/Desktop/STA304/Problem Set 3")
 raw_data <- read_dta("usa_00001.dta")
 
-
 # Add the labels
 raw_data <- labelled::to_factor(raw_data)
 
-# Just keep some variables that may be of interest
+# Keep variables of interest
 reduced_data <- 
   raw_data %>% 
   select(stateicp,
@@ -62,7 +63,7 @@ reduced_data <- reduced_data %>%
   rename(household_income = inctot)
 
 
-#mutate education detailed
+# mutate education detailed
 reduced_data <- reduced_data %>% 
   mutate(educd = case_when(
     educd == "n/a or no schooling" ~ "3rd Grade or less",
@@ -140,16 +141,17 @@ reduced_data <- reduced_data %>%
 # rename some variables
 reduced_data <- reduced_data %>% rename(age_group = age)
 reduced_data <- reduced_data %>% rename(employment = empstat)
-reduced_data <- reduced_data %>% rename(education = educ)
+reduced_data <- reduced_data %>% rename(education = educd)
 
+# filter out observations with age under 18, as they do not have the right to vote
 reduced_data <- reduced_data %>% filter(age_group != "under 18")
 
+# split the cells using the selected variables
 reduced_data <-
   reduced_data %>% 
   count(gender,household_income, employment, age_group, race_ethnicity, education) %>% 
   group_by(gender,household_income, employment, age_group, race_ethnicity, education)
 
 
-# Saving the census data as a csv file in my
-# working directory
+# Saving the census data as a csv file in working directory
 write_csv(reduced_data, "C:/Users/10128/Desktop/STA304/Problem Set 3/output/census_data.csv")

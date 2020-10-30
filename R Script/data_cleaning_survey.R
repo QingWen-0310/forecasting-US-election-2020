@@ -91,19 +91,6 @@ reduced_data_survey <- reduced_data_survey %>%
     race_ethnicity == "Some other race" ~ "other race, nec"
   )) 
 
-reduced_data_survey <- reduced_data_survey %>% 
-  mutate(education = case_when(
-    education == "Doctorate degree" ~ "5+ years of college",
-    education == "Masters degree" ~ "5+ years of college",
-    education == "Completed some graduate, but no degree" ~ "5+ years of college",
-    education == "Associate Degree" ~ "3 years of college",
-    education == "Completed some college, but no degree" ~ "2 years of college",
-    education == "College Degree (such as B.A., B.S.)" ~ "4 years of college",
-    education == "Other post high school vocational training" ~ "1 years of college",
-    education == "High school graduate" ~ "grade 12",
-    education == "Completed some high school" ~ "grade 11",
-    education == "Middle School - Grades 4 - 8" ~ "grade 5, 6, 7, or 8",
-    education == "3rd Grade or less" ~ "n/a or no schooling"))
 
 # rename
 
