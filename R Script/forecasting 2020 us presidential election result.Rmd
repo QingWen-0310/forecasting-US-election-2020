@@ -1,6 +1,6 @@
 ---
 title: "Forecasting 2020 US Presidential Election Result"
-subtitle: "Proportion of US Population that would vote for Donald Trump"
+subtitle: "Proportion of US Population that would vote for Donald Trump/Joe Biden"
 author: "Ke Deng, Yongpeng Hua, Qihui Huang, Qing Wen"
 date: "2 November 2020"
 output:
@@ -14,21 +14,24 @@ bibliography: references.bib
 library(tidyverse)
 
 # Loading in the cleaned survey Data
-survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
+# setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
+# survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
+survey_data <- read_csv("survey_data.csv")
 
 # Loading in the cleaned census Data
-census_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/census_data.csv")
+# census_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/census_data.csv")
+census_data <- read_csv("census_data.csv")
 
 ```
 
 # Model
-The interest for our study is to predict the proportion of vote Donald Trump would get in the upcoming 2020 presidential election. To accomplish this, We would adopt a logistic regression model with the binary response variable indicating people's will whether to vote for Trump. The model is built using @citeR.
+The interest for our study is to predict the proportion of people who would vote for Donald Trump along with he proportion of people who would vote for Joe Biden in the upcoming 2020 presidential election. To accomplish this, We would adopt two logistic regression models with the binary response variable indicating people's will whether to vote for Trump/Biden. The model is built using @citeR.
 
 In addition, we are using the multi-regression post-stratification(MRP) technique to arrive at the estimate of our interest. Detailed procedure would be described in the subsection: Post-Stratification. Data sets used are the survey data collected by the Voter Study Group(@citeSurveyData) and the census data(@citeCensusData) collected by the IPUMS USA.
 
 ## Model Specifics
 
-As mentioned previously, we would adopt a logistic regression model to find the estimate for the proportion of voters who will vote for Trump. We are specifically choosing variables of *employment status*, *gender*, *race*, *household income*, *education level* and *age group*. 
+As mentioned previously, we would adopt a logistic regression model to find the estimate for the proportion of voters who will vote for our two candidates. We are specifically choosing variables of *employment status*, *gender*, *race*, *household income*, *education level* and *age group*. 
 
 The model is defined by: $$log(\frac{\hat{p}}{1-\hat{p}}) = \hat{\beta_0} + \hat{\beta_1} *x_{employment} +\hat{\beta_2}*x_{gender} +\hat{\beta_3}*x_{race}+\hat{\beta_4}*x_{income} + \hat{\beta_5}*x_{education} + \hat{\beta_6}*x_{age}$$, with each $x_{variable}$ representing corresponding predictor variable, and each $\hat{\beta_i}$ representing the relative change in log odds as the value for the predictor variable increases by an additional unit. Furthermore, $log(\frac{\hat{p}}{1-\hat{p}})$ is the defined log odds rather than probability, so transformation on the log odds would be needed to find the corresponding $\hat{p}$.
 
