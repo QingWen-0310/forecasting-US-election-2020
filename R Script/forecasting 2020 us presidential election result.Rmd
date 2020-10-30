@@ -91,7 +91,7 @@ In order to let the model built on the survey data to successfully yield desired
 
 Some of the cleaning process worths mentioning are:
 
-1. Considering *education* as a possible factor, we combine some of the small groups(population) into larger groups(sample) instead of keeping all the small groups. The reasons are: keeping the consistency between *census* data and *survey* data, so that they have the same number of groups in *education*; the groups in *census* are over-detailed, and some groups are repeated which means they represent the similar groups, we can combine them into a large group. In this case, we classify all 42 groups from *census* dataset into 11 large groups in *survey* dataset.
+1. Considering *education* as a possible factor, we combine some of the small groups(population) into larger groups(sample) instead of keeping all the small groups. The reasons are: keeping the consistency between *census* data and *survey* data, so that they have the same number of groups in *education*; the groups in *census* are over-detailed, and some groups are repeated which means they represent the similar groups, we can combine them into a large group. In this case, we classify all 42 groups from *census* dataset into 11 large groups in *survey* dataset. For instance, **associate's degree, type not specified**, **associate's degree, occupational program** and **associate's degree, academic program** all goes into the **Associate Degree** group in *survey* dataset.
 
 2. 
 
