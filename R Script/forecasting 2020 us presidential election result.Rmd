@@ -108,15 +108,12 @@ Some of the cleaning process worths mentioning are:
 
 ```{r, message=FALSE, echo=FALSE}
 # model output in a tidy table
-broom::tidy(logitm)
-broom::tidy(logitmb)
+trump_result <- broom::tidy(logitm)
+biden_result <- broom::tidy(logitmb)
 yps
 yps_b
 ```
 
-Here you will include all results. This includes descriptive statistics, graphs, figures, tables, and model results. Please ensure that everything is well formatted and in a report style. You must also provide an explanation of the results in this section. 
-
-Please ensure that everything is well labelled. So if you have multiple histograms and plots, calling them Figure 1, 2, 3, etc. and referencing them as Figure 1, Figure 2, etc. in your report will be expected. The reader should not get lost in a sea of information. Make sure to have the results be clean, well formatted and digestible.
 
 # Discussion
 
