@@ -45,6 +45,11 @@ reduced_data_survey <-
   mutate(vote_trump = 
            ifelse(vote_2020=="Donald Trump", 1, 0))
 
+reduced_data_survey <- 
+  reduced_data_survey %>% 
+  mutate(vote_biden = 
+           ifelse(vote_2020 == "Joe Biden", 1, 0))
+
 # mutate some values to clean up
 reduced_data_survey <-
   reduced_data_survey %>% 

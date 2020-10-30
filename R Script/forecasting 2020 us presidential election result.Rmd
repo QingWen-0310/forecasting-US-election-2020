@@ -38,6 +38,8 @@ attach(survey_data)
 # build the model
 logitm <- glm(vote_trump~as.factor(employment)+as.factor(gender)+as.factor(race_ethnicity)+as.factor(household_income)+as.factor(education)+as.factor(age_group), family = "binomial")
 
+logitmb <- glm(vote_biden~as.factor(employment)+as.factor(gender)+as.factor(race_ethnicity)+as.factor(household_income)+as.factor(education)+as.factor(age_group), family = "binomial")
+
 detach(survey_data)
 ```
 
@@ -66,6 +68,21 @@ yps <- census_data %>%
   mutate(alp_predict_prop = estimate*n) %>%
   summarise(alp_predict = sum(alp_predict_prop)/sum(n))
 
+
+### results for voting Biden
+census_data$logodds_estimate_b <-
+  logitmb %>%
+  predict(newdata = census_data)
+
+# convert the log odds into probabilities
+census_data$estimate_b <-
+  exp(census_data$logodds_estimate_b)/(1+exp(census_data$logodds_estimate_b))
+
+# yield estimates for each cell than aggregate to find the final estimate
+yps_b <- census_data %>%
+  mutate(alp_predict_prop_b = estimate_b*n) %>%
+  summarise(alp_predict_b = sum(alp_predict_prop_b)/sum(n))
+
 ```
 
 
@@ -76,7 +93,7 @@ Some of the cleaning process worths mentioning are:
 
 1. Considering *education* as a possible factor, we combine some of the small groups(population) into larger groups(sample) instead of keeping all the small groups. The reasons are: keeping the consistency between *census* data and *survey* data, so that they have the same number of groups in *education*; the groups in *census* are over-detailed, and some groups are repeated which means they represent the similar groups, we can combine them into a large group. In this case, we classify all 42 groups from *census* dataset into 11 large groups in *survey* dataset.
 
-2.
+2. 
 
 3.
 
@@ -87,7 +104,9 @@ Some of the cleaning process worths mentioning are:
 ```{r, message=FALSE, echo=FALSE}
 # model output in a tidy table
 broom::tidy(logitm)
+broom::tidy(logitmb)
 yps
+yps_b
 ```
 
 Here you will include all results. This includes descriptive statistics, graphs, figures, tables, and model results. Please ensure that everything is well formatted and in a report style. You must also provide an explanation of the results in this section. 
