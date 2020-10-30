@@ -48,11 +48,11 @@ detach(survey_data)
 
 ## Post-Stratification 
 
-Obviously it would be hard to obtain a census data on how each US resident is going to vote in the election, as the data collecting process would be extremely costly and time-consuming. With the sample data collected which consists of 6,479 observations, we want to form a representative sample to yield a meaningful analysis that could apply well to the general population. The sample size we obtained is really small compared to the total population of US citizens. To compensate for the potential non-representativeness, we want to adopt the post-stratification technique.
+Obviously it would be hard to obtain a census data on how each US citizen is going to vote in the election, as the data collecting process would be extremely costly and time-consuming. With the sample data collected which consists of 6,479 observations, we want to form a representative sample to yield a meaningful analysis that could apply well to the general population. The sample size we obtained is really small compared to the total population of US citizens. To compensate for the potential non-representativeness, we want to adopt the post-stratification technique.
 
-We intend to choose the number of variables so that we can obtain a sample as representative as possible meanwhile not over-complicating the model. So we limit the number of variables to 6 but they are all sound demographics that could serve to split the population and produce meaningful results. For example, the *gender* and *age group* are both basic information pertaining to a certain individual. Variables like *employment status* and *education level* contain information more specific(i.e. more unique features to define a person's demographic than basic information does). Thus, we use the selected variables to split the cells. 
+We intend to choose the number of variables so that we can obtain a sample as representative as possible meanwhile not over-complicating the model. So we limit the number of variables to 6 but they are all sound categories that could serve to split the population and produce meaningful results. For example, the *gender* and *age group* are both basic information pertaining to a certain individual. Variables like *employment status* and *education level* contain more specific information(i.e. more unique features to define a person's demographic than basic information does). Thus, we use the selected variables to split the cells. 
 
-What post-stratification allows us to do is that we can partition the population data into lots of different demographic cells and use the model built from the survey data to estimate the response variable in each cell(we would be using the logistic model as described in the previous section). Then, by weighing each cell by its relative proportion to the whole population, we could yield an estimate for our ultimate goal. The post-stratification estimate is defined as : $${\hat{y}}^{PS} = \frac{\sum{N_j{\hat{y_j}}}}{\sum{N_j}}$$ , where $\hat{y_j}$ is the estimate in each cell and $N_j$ is the population size in the jth demographic cell.
+What post-stratification allows us to do is that we can partition the population data into lots of different demographic cells using the selected variabels and use the model built from the survey data to estimate the response variable in each cell(we would be using the logistic model as described in the previous section). Then, by weighing each cell by its relative proportion to the whole population, we could yield an estimate for the total proportion of US citizens voting for either Trump and Biden. The post-stratification estimate is defined as : $${\hat{y}}^{PS} = \frac{\sum{N_j{\hat{y_j}}}}{\sum{N_j}}$$, where $\hat{y_j}$ is the estimate in each cell and $N_j$ is the population size in the jth demographic cell. We will use $\hat{y}^{PS}_{Trump}$ to denote the proportion estimate for voting for Trump and $\hat{y}^{PS}_{Biden}$ to denote the proportion estimate for voting for Biden.
 
 
 ```{r, include=FALSE}
@@ -90,6 +90,8 @@ yps_b <- census_data %>%
 
 
 ## Notes on Data Cleaning Process
+We create two binary variables in the survey data, namely *vote_trump* and *vote_biden* in the survey data. Taking *vote_trump* for instance, we mutates all the responses for *vote_2020* that is "Donald Trump" to have the value 1, and 0 otherwise. The same procedure applied to *vote_biden*. One thing to notice is that in the *vote_2020*, there are responses of "I am not sure/don't know", which we also signed a value 0.
+
 In order to let the model built on the survey data to successfully yield desired estimates, we need to clean up both the survey data and census data so that each variable we choose contains the same levels of categorical values. For instance, we would like to have the *gender* variable in both the survey and census data to have two levels, namely *male* and *female*. So we would need to ensure that this is indeed the case in both data sets, so the model built from the survey data is be able to predict the estimates based on the input of census data. 
 
 Some of the cleaning process worths mentioning are:
@@ -119,12 +121,13 @@ Please ensure that everything is well labelled. So if you have multiple histogra
 # Discussion
 
 ## Summary
-In this study, we focus on the MRP technique to produce an estimate for the proportion of voters intending to vote for Donald Trump in the upcoming 2020 presidential election. We start off by reading in and cleaning the survey and census data to ensure that the variables in both data sets contain the same sets of levels for out model to yield prediction. After that, we fit in a logistic regression model to the survey data with the predictor and response variables identified previously. Lastly, we apply this model to the census data which already consists of splitted demographic cells to yield estimate for the proportion of voters in each cell and aggregate our calculation to the population level to obtain the final estimate. A quick glimpse of what the cells look like eventually is as follows:
+In this study, we focus on the MRP technique to produce an estimate for the proportion of voters intending to vote for Donald Trump or for Joe Biden in the upcoming 2020 presidential election. We start off by reading in and cleaning the survey and census data to ensure that the variables in both data sets contain the same sets of levels for our model to yield prediction. After that, we fit in two logistic regression models to the survey data with the predictor and response variables identified previously. Lastly, we apply this model to the census data which already consists of splitted demographic cells to yield estimates for the proportion of voters in each cell and aggregate our calculation to the population level to obtain the final estimate. A quick glimpse of what the cells look like eventually is as follows:
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 # kable(census_data)
 head(census_data)
 ```
+We finally arrived at two estimates for the proportion of voters: $\hat{y}^{PS}_{Trump} = 0.39$ and $\hat{y}^{PS}_{Biden} = 0.41$.
 
 ## Conclusion
 
