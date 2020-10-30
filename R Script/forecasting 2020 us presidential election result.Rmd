@@ -4,9 +4,9 @@ subtitle: "Proportion of US Population that would vote for Donald Trump"
 author: "Ke Deng, Yongpeng Hua, Qihui Huang, Qing Wen"
 date: "2 November 2020"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 bibliography: references.bib
 ---
 
