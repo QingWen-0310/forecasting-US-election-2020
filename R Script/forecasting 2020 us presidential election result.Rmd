@@ -4,9 +4,9 @@ subtitle: "Proportion of US Population that would vote for Donald Trump/Joe Bide
 author: "Ke Deng, Yongpeng Hua, Qihui Huang, Qing Wen"
 date: "2 November 2020"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 bibliography: references.bib
 ---
 
@@ -107,20 +107,26 @@ Some of the cleaning process worths mentioning are:
 
 
 # Results
+
+Note: Here we are showing the first few rows of the output. For complete table of output, please refer to the Appendix for table 1 and table 2.
+
 Table 1: Logstic regression output for predicting proportion of votes for Donald Trump
 
 ```{r, message=FALSE, echo=FALSE}
 # model output in a tidy table
 trump_result <- broom::tidy(logitm)
+head(trump_result)
 yps
 ```
 
 In the model output for voting Trump prediction, we get the coefficients for the regression equation, including the parameters of interest like intercepts and slopes for each factor). Estimated intercept for regression equation here is -0.1809. Estimated values for slope parameters vary based on different fields and different cells. Male increases the log odds while female does not have contributions in this cell. Also, unemployed citizens lowered the result as well. In race and ethnicity fields, races except white have lowered the expected change in log odds of Trump winning the election; other factors like education and employment have lowered the log odds as well. People from different age groups contribute to the log odds of Trump winning the election greater or lesser. One thing is worth mentioning is that not all classes contribute to the expected log odds of winning, income of a family only between 200,000 to 249,999 U.S. dollars, 250,000 U.S. dollars above contribute, the others somewhat decrease the log odds. Finally, by extracting the probability from log odds and aggregating estimates from each cell. The estimated probability of Trump winning the election is 0.3897. 
 
+
 Table 2: Logistic regression output for predicting proportion of votes for Joe Biden
 
 ```{r}
 biden_result <- broom::tidy(logitmb)
+head(biden_result)
 yps_b
 ```
 
@@ -145,12 +151,25 @@ discuss conclusions drawn from the results. Make sure to elaborate and connect y
 
 ## Weaknesses
 
-Here we discuss weaknesses of the study, data, analysis, etc. You can also discuss areas for improvement.
+One weakness that can be identified in our model is that due to the unmatch between the census data and the sample data, many variables that contain detailed information are being merged into smaller and more general divisions, which can cause a loss of information. For example, there are two variables in the census data that recorded the detailed employment status and more general employment status. We chose the more general variable due to the mismatch between the detailed employment status in the census and the sample data. 
 
-hello
 ## Next Steps
 
-Here you discuss subsequent work to be done after this report. This can include next steps in terms of statistical analysis (perhaps there is a more efficient algorithm available, or perhaps there is a caveat in the data that would allow for some new technique). Future steps should also be specified in terms of the study setting (eg. including a follow-up survey on something, or a subsequent study that would complement the conclusions of your report).
+Going from the weakness section, the merging of groups within variables can make the model less informative. The next step to make a better model is to see if there are data sets (sample data and census data) that have variables that include more similar group divisions than the currently used data sets.
 
 
-# References
+# Appendix
+Table 1: Complete result for table 1 in the result session
+```{r, echo=FALSE, message=FALSE}
+print(trump_result, n = 50)
+```
+
+Table 2: Complete result for table 2 in the result session
+```{r}
+print(biden_result, n = 50)
+```
+
+
+
+
+
