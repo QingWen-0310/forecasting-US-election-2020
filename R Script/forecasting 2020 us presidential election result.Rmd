@@ -148,12 +148,12 @@ discuss conclusions drawn from the results. Make sure to elaborate and connect y
 
 ## Weaknesses
 
-Here we discuss weaknesses of the study, data, analysis, etc. You can also discuss areas for improvement.
+One weakness that can be identified in our model is that due to the unmatch between the census data and the sample data, many variables that contain detailed information are being merged into smaller and more general divisions, which can cause a loss of information. For example, there are two variables in the census data that recorded the detailed employment status and more general employment status. We chose the more general variable due to the mismatch between the detailed employment status in the census and the sample data. 
 
-hello
 ## Next Steps
 
-Here you discuss subsequent work to be done after this report. This can include next steps in terms of statistical analysis (perhaps there is a more efficient algorithm available, or perhaps there is a caveat in the data that would allow for some new technique). Future steps should also be specified in terms of the study setting (eg. including a follow-up survey on something, or a subsequent study that would complement the conclusions of your report).
+Going from the weakness section, the merging of groups within variables can make the model less informative. The next step to make a better model is to see if there are data sets (sample data and census data) that have variables that include more similar group divisions than the currently used data sets.
 
+hello 
 
 # References
