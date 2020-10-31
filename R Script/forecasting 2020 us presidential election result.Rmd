@@ -107,11 +107,13 @@ Some of the cleaning process worths mentioning are:
 
 
 # Results
-Table 1: Logstic regression output for predicting proportion of votes for Donald Trump
+
+Table 1: Logistic regression output for predicting proportion of votes for Donald Trump
 
 ```{r, message=FALSE, echo=FALSE}
 # model output in a tidy table
 trump_result <- broom::tidy(logitm)
+trump_result
 yps
 ```
 
@@ -121,6 +123,7 @@ Table 2: Logistic regression output for predicting proportion of votes for Joe B
 
 ```{r}
 biden_result <- broom::tidy(logitmb)
+biden_result
 yps_b
 ```
 
