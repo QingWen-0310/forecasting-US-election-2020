@@ -88,13 +88,6 @@ yps_b <- census_data %>%
 yps_b
 ```
 
-##Result
-In the model output for voting Trump prediction, we get the coefficients for the regression equation, including the parameters of interest like intercepts and slopes for each factor). Estimated intercept for regression equation here is -0.1809. Estimated values for slope parameters vary based on different fields and different cells. Male increases the log odds while female does not have contributions in this cell. Also, unemployed citizens lowered the result as well. In race and ethnicity fields, races except white have lowered the expected change in log odds of Trump winning the election; other factors like education and employment have lowered the log odds as well. People from different age groups contribute to the log odds of Trump winning the election greater or lesser. One thing is worth mentioning is that not all classes contribute to the expected log odds of winning, income of a family only between 200,000 to 249,999 U.S. dollars, 250,000 U.S. dollars above contribute, the others somewhat decrease the log odds. Finally, by extracting the probability from log odds and aggregating estimates from each cell. The estimated probability of Trump winning the election is 0.3897. 
-
-In the logistic model output for voting Biden prediction, we use exactly the same factors to predict. The estimated intercept for the regression model is -0.5952. Contrary to what we got in predicting Trump's winning probability, unemployed/not in labor citizens rises log odds output, and males decline it. Moreover, the race factor contributes but age groups factor decreases the output. College degree and Master degree is likely to increase the odds. For different income groups, only a few groups may lower the odds like income ranging from 175,000 to 199,999 U.S. dollars and above 250,000 U.S. dollars. The estimated probability of voting for Biden more than Trump a little, which is 0.4062.
-
-The P-value for each factors in both logistic models are less than 0.005.
-
 
 ## Notes on Data Cleaning Process
 We create two binary variables in the survey data, namely *vote_trump* and *vote_biden* in the survey data. Taking *vote_trump* for instance, we mutates all the responses for *vote_2020* that is "Donald Trump" to have the value 1, and 0 otherwise. The same procedure applied to *vote_biden*. One thing to notice is that in the *vote_2020*, there are responses of "I am not sure/don't know", which we also signed a value 0.
@@ -122,6 +115,12 @@ biden_result <- broom::tidy(logitmb)
 yps
 yps_b
 ```
+
+In the model output for voting Trump prediction, we get the coefficients for the regression equation, including the parameters of interest like intercepts and slopes for each factor). Estimated intercept for regression equation here is -0.1809. Estimated values for slope parameters vary based on different fields and different cells. Male increases the log odds while female does not have contributions in this cell. Also, unemployed citizens lowered the result as well. In race and ethnicity fields, races except white have lowered the expected change in log odds of Trump winning the election; other factors like education and employment have lowered the log odds as well. People from different age groups contribute to the log odds of Trump winning the election greater or lesser. One thing is worth mentioning is that not all classes contribute to the expected log odds of winning, income of a family only between 200,000 to 249,999 U.S. dollars, 250,000 U.S. dollars above contribute, the others somewhat decrease the log odds. Finally, by extracting the probability from log odds and aggregating estimates from each cell. The estimated probability of Trump winning the election is 0.3897. 
+
+In the logistic model output for voting Biden prediction, we use exactly the same factors to predict. The estimated intercept for the regression model is -0.5952. Contrary to what we got in predicting Trump's winning probability, unemployed/not in labor citizens rises log odds output, and males decline it. Moreover, the race factor contributes but age groups factor decreases the output. College degree and Master degree is likely to increase the odds. For different income groups, only a few groups may lower the odds like income ranging from 175,000 to 199,999 U.S. dollars and above 250,000 U.S. dollars. The estimated probability of voting for Biden more than Trump a little, which is 0.4062.
+
+The P-value for each factors in both logistic models are less than 0.005.
 
 
 # Discussion
