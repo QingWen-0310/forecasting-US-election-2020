@@ -17,7 +17,6 @@ library(tidyverse)
 # setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
 survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
 # survey_data <- read_csv("survey_data.csv")
-
 # Loading in the cleaned census Data
 # census_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/census_data.csv")
 census_data <- read_csv("census_data.csv")
@@ -131,6 +130,9 @@ Table 2 shows the logistic model output for voting Biden prediction. We use exac
 
 The P-value for each factors in both logistic models are less than 0.005.
 
+
+Graph 2 shows the bar plot 
+
 ```{r, echo=FALSE, message=FALSE}
 
 survey_data <- survey_data %>% 
@@ -143,15 +145,19 @@ par(mfrow = c(1,2))
 survey_data %>% 
   ggplot(aes(x = employment, fill = vote_2020))+
   geom_bar()+
-  labs(title = "Bar Plot for Employment and Vote Intention")
+  labs(title = "Graph 1: Bar Plot for Employment and Vote Intention")
 
 survey_data%>% 
   ggplot(aes(x = gender, fill = vote_2020))+
   geom_bar()+
-  labs(title = "Bar Plot for Gender and Vote Intention")
+  labs(title = "Graph 2: Bar Plot for Gender and Vote Intention")
 ```
 
 Table 3: Proportion of people voting for Trump or Biden within each employment group
+
+Table 3 shows the proportion of people voting for Trump of Biden. We here grouped the model by the variable *employment*, which has divisions **employment, not in labor force, and unemployed*, the answers as *n/a* have luckly been filtered out when we filter the census data of people over 18 years old. 
+The table shows that out of all employed people, 0.40 or 40% of them vote for Trump and 0.417 or 41.7% vote for Biden, and the other divisions are shown in Graph 1 (Bar plot for Employment and Vote Intention). Out of all people not in labor force, 0.377 vote for Trump and 0.429 vote for Biden. Lastly out of all unemployed, 0.314 vote for Trump and 0.411 vote for Biden.
+In Graph 1, the bar plot separates each proportion by numbers and the index is on the right side. Showing the porportion of people voting for Trump and Biden are about the same, with small porportions saying *I am not sure/don't know*, *I would not vote* and *someone else*. Same applies for the *not in labor force* and *unemployed* group, the proportions voting for the two are visually similar, with small proportions of people saying others.
 
 ```{r, echo=FALSE, message=FALSE}
 # calculate proportion of people voting for Trump or Biden within each employment group
@@ -167,6 +173,9 @@ cbind(emp_t, vote_b)
 ```
 
 Table 4: Proportion of people voting for Trump or Biden within each gender group
+
+Table 4 shows the percentage/proportion of people voting for Trump or Biden within the gender groups. The bar plot of the percentages are shown in Graph 2 (Bar plot for Gender and Vote Intention). It is summarized in the table below, out of all females, 0.32 (or 32%) vote for Trump and 0.46 vote for Biden. Within the males, 0.45 vote for Trump and 0.38 vote for Biden.
+Graph 2 above have shown the numbers as a visual bar plot. It has shown that in the female group, females voting for Biden have the highest proportion, then second highest voting for Trump, with small proportions saying others. The male group has males voting for Trump being the highest proportion, then second highest for voting for Biden, and small proportions for others.
 
 ```{r, echo=FALSE, message=FALSE}
 gender_t <- survey_data %>% 
@@ -207,6 +216,10 @@ One weakness that can be identified in our model is that due to the unmatch betw
 ## Next Steps
 
 Going from the weakness section, the merging of groups within variables can make the model less informative. The next step to make a better model is to see if there are data sets (sample data and census data) that have variables that include more similar group divisions than the currently used data sets.
+
+
+## Concluding Remark
+2020 has been a quite special year for a range of different reasons. The Corona virus pandemic is certainly one of them, and it is still an ongoing issue. This pandemic has changed everything including how people live their life and how to cope with any emerging challenges faced by them. With this situation in mind, the dynamic for the upoming 2020 US presidential election might also alter, as @citeLichtman mentioned in his journal. As people are currently more focusing on the issue of public health, health care and racial inequality, they may put more emphasis on the traits they want their president to have instead of focusing more on the economic perspective of the country. The vote result may well turn out to be a vote for supporting whoever the citizens think as the most trustworthy to lead them through the pandemic. 
 
 
 \newpage
