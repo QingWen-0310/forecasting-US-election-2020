@@ -131,6 +131,7 @@ Table 2 shows the logistic model output for voting Biden prediction. We use exac
 
 The P-value for each factors in both logistic models are less than 0.005.
 
+
 ```{r, echo=FALSE, message=FALSE}
 
 survey_data <- survey_data %>% 
@@ -143,12 +144,12 @@ par(mfrow = c(1,2))
 survey_data %>% 
   ggplot(aes(x = employment, fill = vote_2020))+
   geom_bar()+
-  labs(title = "Bar Plot for Employment and Vote Intention")
+  labs(title = "Graph 1: Bar Plot for Employment and Vote Intention")
 
 survey_data%>% 
   ggplot(aes(x = gender, fill = vote_2020))+
   geom_bar()+
-  labs(title = "Bar Plot for Gender and Vote Intention")
+  labs(title = "Graph 2: Bar Plot for Gender and Vote Intention")
 ```
 
 Table 3: Proportion of people voting for Trump or Biden within each employment group
@@ -207,6 +208,10 @@ One weakness that can be identified in our model is that due to the unmatch betw
 ## Next Steps
 
 Going from the weakness section, the merging of groups within variables can make the model less informative. The next step to make a better model is to see if there are data sets (sample data and census data) that have variables that include more similar group divisions than the currently used data sets.
+
+
+## Concluding Remark
+2020 has been a quite special year for a range of different reasons. The Corona virus pandemic is certainly one of them, and it is still an ongoing issue. This pandemic has changed everything including how people live their life and how to cope with any emerging challenges faced by them. With this situation in mind, the dynamic for the upoming 2020 US presidential election might also alter, as @citeLichtman mentioned in his journal. As people are currently more focusing on the issue of public health, health care and racial inequality, they may put more emphasis on the traits they want their president to have instead of focusing more on the economic perspective of the country. The vote result may well turn out to be a vote for supporting whoever the citizens think as the most trustworthy to lead them through the pandemic. 
 
 
 \newpage
