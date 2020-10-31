@@ -171,5 +171,3 @@ print(biden_result, n = 50)
 
 
 
-
-
