@@ -15,8 +15,8 @@ library(tidyverse)
 
 # Loading in the cleaned survey Data
 # setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
-# survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
-survey_data <- read_csv("survey_data.csv")
+survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
+# survey_data <- read_csv("survey_data.csv")
 
 # Loading in the cleaned census Data
 # census_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/census_data.csv")
@@ -121,7 +121,7 @@ Table 1 shows the model output for voting Trump prediction. We get the coefficie
 
 Table 2: Logistic regression output for predicting proportion of votes for Joe Biden
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 biden_result <- broom::tidy(logitmb)
 head(biden_result)
 yps_b
@@ -130,6 +130,56 @@ yps_b
 Table 2 shows the logistic model output for voting Biden prediction. We use exactly the same factors to predict. The estimated intercept for the regression model is -0.5952. Contrary to what we got in predicting Trump's winning probability, unemployed/not in labor citizens rises log odds output, and males decline it. Moreover, the race factor contributes but age groups factor decreases the output. College degree and Master degree is likely to increase the odds. For different income groups, only a few groups may lower the odds like income ranging from 175,000 to 199,999 U.S. dollars and above 250,000 U.S. dollars. The estimated probability of voting for Biden more than Trump a little, which is 0.4062.
 
 The P-value for each factors in both logistic models are less than 0.005.
+
+```{r, echo=FALSE, message=FALSE}
+
+survey_data <- survey_data %>% 
+  filter(!is.na(employment)) %>%
+  filter(!is.na(gender)) %>% 
+  filter(!is.na(vote_trump)) %>% 
+  filter(!is.na(vote_biden))
+par(mfrow = c(1,2))
+
+survey_data %>% 
+  ggplot(aes(x = employment, fill = vote_2020))+
+  geom_bar()+
+  labs(title = "Bar Plot for Employment and Vote Intention")
+
+survey_data%>% 
+  ggplot(aes(x = gender, fill = vote_2020))+
+  geom_bar()+
+  labs(title = "Bar Plot for Gender and Vote Intention")
+```
+
+Table 3: Proportion of people voting for Trump or Biden within each employment group
+
+```{r, echo=FALSE, message=FALSE}
+# calculate proportion of people voting for Trump or Biden within each employment group
+emp_t <- survey_data %>% 
+  group_by(employment) %>% 
+  summarise(vote_t = mean(vote_trump))
+
+emp_b <- survey_data %>% 
+  group_by(employment) %>% 
+  summarise(vote_b = mean(vote_biden))
+vote_b = emp_b$vote_b
+cbind(emp_t, vote_b)
+```
+
+Table 4: Proportion of people voting for Trump or Biden within each gender group
+
+```{r, echo=FALSE, message=FALSE}
+gender_t <- survey_data %>% 
+  group_by(gender) %>% 
+  summarise(vote_t = mean(vote_trump))
+
+gender_b <- survey_data %>% 
+  group_by(gender) %>% 
+  summarise(vote_b = mean(vote_biden))
+vote_b1 <- gender_b$vote_b
+cbind(gender_t, vote_b1)
+```
+
 
 
 # Discussion
@@ -171,5 +221,5 @@ Table 2: Complete result for table 2 in the result session
 print(biden_result, n = 50)
 ```
 
-
+# References
 
