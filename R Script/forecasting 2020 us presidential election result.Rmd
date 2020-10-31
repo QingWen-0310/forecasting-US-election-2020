@@ -144,7 +144,11 @@ We finally arrived at two estimates for the proportion of voters: $\hat{y}^{PS}_
 
 ## Conclusion
 
-discuss conclusions drawn from the results. Make sure to elaborate and connect your analysis to the goal of the study.
+
+
+
+
+The building of this model gives society a timely and socially effect. As in the political field, voting for the two candidates can be a popular subject and news. The prediction of the model might affect public opinion. Predicting people's choices can be a timely and costly process, however, with the given data and a properly built model, the prediction will help people see how their choices affect the elections and notice the importance of personal choices. Even the data used in the model are not representative enough and are not collected by ourselves, it can let society have an idea of what the predicted result is. The social effect of such a model is great and relevant.
 
 ## Weaknesses
 
