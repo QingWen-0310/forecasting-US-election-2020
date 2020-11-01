@@ -15,8 +15,8 @@ library(tidyverse)
 
 # Loading in the cleaned survey Data
 # setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
-survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
-# survey_data <- read_csv("survey_data.csv")
+#survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
+survey_data <- read_csv("survey_data.csv")
 # Loading in the cleaned census Data
 # census_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/census_data.csv")
 census_data <- read_csv("census_data.csv")
@@ -151,11 +151,13 @@ survey_data%>%
   labs(title = "Graph 2: Bar Plot for Gender and Vote Intention")
 ```
 
+In Graph 1, the bar plot shows the porportion of people voting for Trump and Biden within each employment status. The precise proportion number is summarized in table3 below. Visually, within the three employment statues, voting for Trump and voting for Biden have similar proportions, and small proportions for others.
+
 Table 3: Proportion of people voting for Trump or Biden within each employment group
 
-Table 3 shows the proportion of people voting for Trump of Biden. We here grouped the model by the variable *employment*, which has divisions **employment, not in labor force, and unemployed*, the answers as *n/a* have luckly been filtered out when we filter the census data of people over 18 years old. 
 The table shows that out of all employed people, 0.40 or 40% of them vote for Trump and 0.417 or 41.7% vote for Biden, and the other divisions are shown in Graph 1 (Bar plot for Employment and Vote Intention). Out of all people not in labor force, 0.377 vote for Trump and 0.429 vote for Biden. Lastly out of all unemployed, 0.314 vote for Trump and 0.411 vote for Biden.
-In Graph 1, the bar plot separates each proportion by numbers and the index is on the right side. Showing the porportion of people voting for Trump and Biden are about the same, with small porportions saying *I am not sure/don't know*, *I would not vote* and *someone else*. Same applies for the *not in labor force* and *unemployed* group, the proportions voting for the two are visually similar, with small proportions of people saying others.
+
+
 
 ```{r, echo=FALSE, message=FALSE}
 # calculate proportion of people voting for Trump or Biden within each employment group
@@ -170,10 +172,12 @@ vote_b = emp_b$vote_b
 cbind(emp_t, vote_b)
 ```
 
+Graph 2 above have shown the numbers as a visual bar plot. It has shown that in the female group, females voting for Biden have the highest proportion, then second highest voting for Trump, with small proportions saying others. The male group has males voting for Trump being the highest proportion, then second highest for voting for Biden, and small proportions for others.
+
 Table 4: Proportion of people voting for Trump or Biden within each gender group
 
-Table 4 shows the percentage/proportion of people voting for Trump or Biden within the gender groups. The bar plot of the percentages are shown in Graph 2 (Bar plot for Gender and Vote Intention). It is summarized in the table below, out of all females, 0.32 (or 32%) vote for Trump and 0.46 vote for Biden. Within the males, 0.45 vote for Trump and 0.38 vote for Biden.
-Graph 2 above have shown the numbers as a visual bar plot. It has shown that in the female group, females voting for Biden have the highest proportion, then second highest voting for Trump, with small proportions saying others. The male group has males voting for Trump being the highest proportion, then second highest for voting for Biden, and small proportions for others.
+The precise proportion of people within each gender group voting for Trump and Biden are summarized in the table below, out of all females, 0.32 (or 32%) vote for Trump and 0.46 vote for Biden. Within the males, 0.45 vote for Trump and 0.38 vote for Biden.
+
 
 ```{r, echo=FALSE, message=FALSE}
 gender_t <- survey_data %>% 
