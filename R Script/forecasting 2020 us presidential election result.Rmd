@@ -13,6 +13,7 @@ bibliography: references.bib
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(gridExtra)
+library(broom)
 
 # Loading in the cleaned survey Data
 # setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
@@ -25,9 +26,9 @@ census_data <- read_csv("census_data.csv")
 ```
 
 # Model
-The interest for our study is to predict the proportion of people who would vote for Donald Trump along with he proportion of people who would vote for Joe Biden in the upcoming 2020 presidential election. To accomplish this, We would adopt two logistic regression models with the binary response variable indicating people's will whether to vote for Trump/Biden. The model is built using @citeR.
+The interest for our study is to predict the proportion of people who would vote for Donald Trump along with he proportion of people who would vote for Joe Biden in the upcoming 2020 presidential election. To accomplish this, We would adopt two logistic regression models with the binary response variable indicating people's will whether to vote for Trump/Biden. The model is built using R[@citeR], and we use packages:  broom[@citeBroom] and gridExtra[@citegridExtra].
 
-In addition, we are using the multi-regression post-stratification(MRP) technique to arrive at the estimate of our interest. Detailed procedure would be described in the subsection: Post-Stratification. Data sets used are the survey data collected by the Voter Study Group(@citeSurveyData) and the census data(@citeCensusData) collected by the IPUMS USA.
+In addition, we are using the multi-regression post-stratification(MRP) technique to arrive at the estimate of our interest. Detailed procedure would be described in the subsection: Post-Stratification. Data sets used are the survey data collected by the Voter Study Group[@citeSurveyData] and the census data[@citeCensusData] collected by the IPUMS USA.
 
 ## Model Specifics
 
@@ -89,7 +90,7 @@ yps_b
 ```
 
 ## Notes on Data Cleaning Process
-We create two binary variables in the survey data, namely *vote_trump* and *vote_biden* in the survey data. Taking *vote_trump* for instance, we mutates all the responses for *vote_2020* that is "Donald Trump" to have the value 1, and 0 otherwise. The same procedure applied to *vote_biden*. One thing to notice is that in the *vote_2020*, there are responses of "I am not sure/don't know", which we also signed a value 0.
+We use Lablled[@citeLabelled] to help clean the data. We create two binary variables in the survey data, namely *vote_trump* and *vote_biden* in the survey data. Taking *vote_trump* for instance, we mutates all the responses for *vote_2020* that is "Donald Trump" to have the value 1, and 0 otherwise. The same procedure applied to *vote_biden*. One thing to notice is that in the *vote_2020*, there are responses of "I am not sure/don't know", which we also signed a value 0.
 
 In order to let the model built on the survey data to successfully yield desired estimates, we need to clean up both the survey data and census data so that each variable we choose contains the same levels of categorical values. For instance, we would like to have the *gender* variable in both the survey and census data to have two levels, namely *male* and *female*. So we would need to ensure that this is indeed the case in both data sets, so the model built from the survey data is be able to predict the estimates based on the input of census data. 
 
