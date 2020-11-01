@@ -12,6 +12,7 @@ bibliography: references.bib
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(gridExtra)
 
 # Loading in the cleaned survey Data
 # setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
@@ -32,7 +33,7 @@ In addition, we are using the multi-regression post-stratification(MRP) techniqu
 
 As mentioned previously, we would adopt a logistic regression model to find the estimate for the proportion of voters who will vote for our two candidates. We are specifically choosing variables of *employment status*, *gender*, *race*, *household income*, *education level* and *age group*. 
 
-The model is defined by: $$log(\frac{\hat{p}}{1-\hat{p}}) = \hat{\beta_0} + \hat{\beta_1} *x_{employment} +\hat{\beta_2}*x_{gender} +\hat{\beta_3}*x_{race}+\hat{\beta_4}*x_{income} + \hat{\beta_5}*x_{education} + \hat{\beta_6}*x_{age}$$, with each $x_{variable}$ representing corresponding predictor variable, and each $\hat{\beta_i}$ representing the relative change in log odds as the value for the predictor variable increases by an additional unit. Furthermore, $log(\frac{\hat{p}}{1-\hat{p}})$ is the defined log odds rather than probability, so transformation on the log odds would be needed to find the corresponding $\hat{p}$.
+The model is defined by: $$log(\frac{\hat{p}}{1-\hat{p}}) = \hat{\beta_0} + \hat{\beta_1} *x_{employment} +\hat{\beta_2}*x_{gender} +\hat{\beta_3}*x_{race}+\hat{\beta_4}*x_{income} + \hat{\beta_5}*x_{education} + \hat{\beta_6}*x_{age}$$ with each $x_{variable}$ representing corresponding predictor variable, and each $\hat{\beta_i}$ representing the relative change in log odds as the value for the predictor variable increases by an additional unit. Furthermore, $log(\frac{\hat{p}}{1-\hat{p}})$ is the defined log odds rather than probability, so transformation on the log odds would be needed to find the corresponding $\hat{p}$.
 
 ```{r, include=FALSE}
 attach(survey_data)
@@ -92,20 +93,17 @@ We create two binary variables in the survey data, namely *vote_trump* and *vote
 
 In order to let the model built on the survey data to successfully yield desired estimates, we need to clean up both the survey data and census data so that each variable we choose contains the same levels of categorical values. For instance, we would like to have the *gender* variable in both the survey and census data to have two levels, namely *male* and *female*. So we would need to ensure that this is indeed the case in both data sets, so the model built from the survey data is be able to predict the estimates based on the input of census data. 
 
-Some of the cleaning process worths mentioning are:
+However, when merging groups to match the groups in the other data set, there is an unevitable loss of information. We are trying to complete this cleaning process with the reservation of important details the variables contain. Below, we mention some of the cleaning processes when we decide to merge some groups together, with detailed reasoning outlined in the Appendix - Notes on Data Cleaning Process-detailed:
 
-1. Considering *education* as a possible factor, we combine some of the small groups(population) into larger groups(sample) instead of keeping all the small groups. The reasons are: keeping the consistency between *census* data and *survey* data, so that they have the same number of groups in *education*; the groups in *census* are over-detailed, and some groups are repeated which means they represent the similar groups, we can combine them into a large group. In this case, we classify all 42 groups from *census* dataset into 11 large groups in *survey* dataset. For instance, **associate's degree, type not specified**, **associate's degree, occupational program** and **associate's degree, academic program** all goes into the **Associate Degree** group in *survey* dataset.
-
-2. Considering *race* as a possible factor, voters with different races may affect their voting decisions. We combine some small groups(sample) of variables into larger groups(population). The reasons are: keeping the consistency between *census* data and *survey* data, so that they have the same number of groups in *race*; the groups(*race_ethnicity*) in *survey* are over-detailed, and some groups of races can be included in a larger group. In this case, the original 15 groups are classified to 7 groups, which are *white*, *black/african american/negro*, *american indian or alaska native*, *chinese*, *japanese*, *other asian or pacific islander*, and *other race, nec*. In addition, the variable *race_ethnicity* is renamed to *race* in *census* dataset and also in the model. 
-
-3. Considering *age_group* as a possible factor, people at different ages with different experiences might affect their voting choices. Since age_group is a variable mutated from ages, that is considered to be a numeric variable, can be directly mutated. In the sample data, it only records age groups that are over 18 years old. However, the population data consists of those that are under 18 and are not eligible to vote, which is being filtered out for the model.
-
-4. Considering *employment* as a possible factor, people with different careers and different employment statuses are recorded down. We have combined the more specific divisions (sample) into a more general division (population), as we would like to keep the consistency between *census* and *survey* data so that the groups are the same for both in *employment*. In the sample data, the people with jobs are considered to be employed, including groups that are *Part-time employed*, *Full-time employed*, *Self-employed*. The other general division is people that are *not in labor force*, which in the sample are groups that are *Homemaker*, *Permanently disabled*, *Retired*, and *Student*. People who are *Unemployed or temporarily on layoff* are considered to be *unemployed*. One note is that those that have employment noted as *Other*, are grouped *n/a*. In the population data, when people under 18 years old are being filtered out, we have found out that those that have employment as *n/a* are those that are under 18 years old, so it does not cause any trouble in the model.
+1. For *education*, we combine some of the small groups(population) into larger groups(sample) instead of keeping all the small groups. We end up with having  11 levels for this variable.
+2. Considering variable *race_ethnicity*, voters with different races may affect their voting decisions. We combine some small groups(sample) of variables into larger groups(population), and we end up with having 7 different levels.
+3. Considering *age_group* as a possible factor, people at different ages with different experiences might affect their voting choices, and we end up with 8 groups.
+4. For *employment*, we have combined the more specific divisions (sample) into a more general division (population). And we end up having 3 levels for this variable.
 
 
 # Results
 
-Note: Here we are showing the first few rows of the output. For complete table of output, please refer to the Appendix for table 1 and table 2.
+Note: Here we are showing the first few rows of the regression output. For the complete tables of output, please refer to the Appendix for table 1 and table 2.
 
 Table 1: Logstic regression output for predicting proportion of votes for Donald Trump
 
@@ -117,6 +115,10 @@ yps
 ```
 
 Table 1 shows the model output for voting Trump prediction. We get the coefficients for the regression equation, including the parameters of interest like intercepts and slopes for each factor). Estimated intercept for regression equation here is -0.1809. Estimated values for slope parameters vary based on different fields and different cells. Male increases the log odds while female does not have contributions in this cell. Also, unemployed citizens lowered the result as well. In race and ethnicity fields, races except white have lowered the expected change in log odds of Trump winning the election; other factors like education and employment have lowered the log odds as well. People from different age groups contribute to the log odds of Trump winning the election greater or lesser. One thing is worth mentioning is that not all classes contribute to the expected log odds of winning, income of a family only between 200,000 to 249,999 U.S. dollars, 250,000 U.S. dollars above contribute, the others somewhat decrease the log odds. Finally, by extracting the probability from log odds and aggregating estimates from each cell. The estimated probability of Trump winning the election is 0.3897. 
+
+
+(Table 1 shows the coefficients of variables and the intercept for voting Trump predicition.The estimated intercept for regression equation here is -0.1809. Since the variables have different level, the coefficients correspond to each level of the variable, for example, male increases the log odds while female does not have contributions in this cell. Positive coefficients show an increase in the log odds of Trump winning, and the larger the absolute value of the coefficient is, the more effect is has on the log odds.)
+
 
 Table 2: Logistic regression output for predicting proportion of votes for Joe Biden
 
@@ -132,23 +134,24 @@ The P-value for each factors in both logistic models are less than 0.005.
 
 
 ```{r, echo=FALSE, message=FALSE}
-
+# filter NA's in the relevant variables
 survey_data <- survey_data %>% 
   filter(!is.na(employment)) %>%
   filter(!is.na(gender)) %>% 
   filter(!is.na(vote_trump)) %>% 
   filter(!is.na(vote_biden))
-par(mfrow = c(1,2))
 
-survey_data %>% 
+plot1<- survey_data %>% 
   ggplot(aes(x = employment, fill = vote_2020))+
   geom_bar()+
   labs(title = "Graph 1: Bar Plot for Employment and Vote Intention")
 
-survey_data%>% 
+plot2 <- survey_data%>% 
   ggplot(aes(x = gender, fill = vote_2020))+
   geom_bar()+
   labs(title = "Graph 2: Bar Plot for Gender and Vote Intention")
+grid.arrange(plot1, plot2, nrow=2)
+
 ```
 
 In Graph 1, the bar plot shows the porportion of people voting for Trump and Biden within each employment status. The precise proportion number is summarized in table3 below. Visually, within the three employment statues, voting for Trump and voting for Biden have similar proportions, and small proportions for others.
@@ -232,6 +235,17 @@ Table 2: Complete result for table 2 in the result session
 ```{r, echo=FALSE}
 print(biden_result, n = 50)
 ```
+
+Notes on Data Cleaning Process-Detailed:
+
+1. Education: keeping the consistency between *census* data and *survey* data, so that they have the same number of groups in *education*; the groups in *census* are over-detailed, and some groups are repeated which means they represent the similar groups, we can combine them into a large group. In this case, we classify all 42 groups from *census* dataset into 11 large groups in *survey* dataset. For instance, **associate's degree, type not specified**, **associate's degree, occupational program** and **associate's degree, academic program** all goes into the **Associate Degree** group in *survey* dataset.
+
+2. Race_ethnicity: the groups(*race_ethnicity*) in *survey* are over-detailed, and some groups of races can be included in a larger group. In this case, the original 15 groups are classified to 7 groups, which are *white*, *black/african american/negro*, *american indian or alaska native*, *chinese*, *japanese*, *other asian or pacific islander*, and *other race, nec*. In addition, the variable *race_ethnicity* is renamed to *race* in *census* dataset and also in the model. 
+
+3. Age group: *age_group* is a variable mutated from ages. In the sample data, it only records age groups that are over 18 years old. However, the population data consists of those that are under 18 and are not eligible to vote, which is being filtered out for the model.
+
+4. Employment: in the sample data, the people with jobs are considered to be *employed*, including groups that are *Part-time employed*, *Full-time employed*, *Self-employed*. The other general division is people that are *not in labor force*, which in the sample are groups that are *Homemaker*, *Permanently disabled*, *Retired*, and *Student*. People who are *Unemployed or temporarily on layoff* are considered to be *unemployed*. One note is that those that have employment noted as *Other*, are grouped *n/a*. In the population data, when people under 18 years old are being filtered out, we have found out that those that have employment as *n/a* are those that are under 18 years old, so it does not cause any trouble in the model.
+
 
 # References
 
