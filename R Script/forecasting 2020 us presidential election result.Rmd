@@ -131,8 +131,6 @@ Table 2 shows the logistic model output for voting Biden prediction. We use exac
 The P-value for each factors in both logistic models are less than 0.005.
 
 
-Graph 2 shows the bar plot 
-
 ```{r, echo=FALSE, message=FALSE}
 
 survey_data <- survey_data %>% 
