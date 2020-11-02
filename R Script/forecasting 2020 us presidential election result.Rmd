@@ -4,9 +4,9 @@ subtitle: "Proportion of US Population that would vote for Donald Trump/Joe Bide
 author: "Ke Deng, Yongpeng Hua, Qihui Huang, Qing Wen"
 date: "2 November 2020"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 bibliography: references.bib
 ---
 
@@ -14,14 +14,9 @@ bibliography: references.bib
 library(tidyverse)
 library(gridExtra)
 library(broom)
-# setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
 
 # Loading in the cleaned survey Data
-<<<<<<< HEAD
-# setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
-# survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
-=======
->>>>>>> 0c93a503d176923873e36ec6ba300a450bbbfda6
+
 survey_data <- read_csv("survey_data.csv")
 
 # Loading in the cleaned census Data
@@ -106,7 +101,7 @@ However, when merging groups to match the groups in the other data set, there is
 # Results
 Note: Here we are showing the first few rows of the regression output. For the complete tables of output, please refer to the Appendix for table 1 and table 2.
 
-Table 1: Logstic regression output for predicting proportion of votes for Donald Trump
+Table 1: Logistic regression output for predicting proportion of votes for Donald Trump
 
 ```{r, message=FALSE, echo=FALSE}
 # model output in a tidy table
@@ -142,10 +137,6 @@ survey_data <- survey_data %>%
   filter(!is.na(gender)) %>% 
   filter(!is.na(vote_trump)) %>% 
   filter(!is.na(vote_biden))
-<<<<<<< HEAD
-par(mfrow=c(2,1))
-=======
->>>>>>> 0c93a503d176923873e36ec6ba300a450bbbfda6
 
 # plot bar plot for employment vs. vote intention 
 plot1<- survey_data %>% 
@@ -213,12 +204,12 @@ head(census_data)
 We finally arrived at two estimates for the proportion of voters: $\hat{y}^{PS}_{Trump} = 0.39$ and $\hat{y}^{PS}_{Biden} = 0.41$.
 
 ## Conclusion
+The building of this model gives society a timely and social effect. As in the political field, voting for the two candidates can be a popular subject and news. So we build models to roughly predict the result. Predicting people's choices can be a timely and costly process, however, with the given data and a properly built model, the prediction will help people see how their choices affect the elections and notice the importance of personal choices. Even the data used in the model are not sufficiently representative and are not collected by ourselves, it can let society have an idea of what the predicted result is. The social effect of such a model is great and relevant.
 
+From the model we generate, it gives us a clear view of advantages and disadvantages in different fields of two U.S. president candidates by looking at the log odds from the coefficient table. Some of the categories like races, employment and education, do impose negative effects on the expected log odds in Trump’s election model while actually increasing the log odds in Biden’s model,  and also affect the final probability we predict later. It is hard to come up with a pattern in other categories like household income and age groups, as these cells have brought the log odds up or down in a small amount, so we could not see a huge difference between these two categories. Also, the barplots showing the precise proportion of citizens’ voting intention help us confirm our previous result, and give us a detailed view of the difference of proportions in some categories. 
 
+The probability of winning the election does not have much difference between two candidates, but Biden has higher possibilities winning the election based on the census and survey data we have (around 39% and 41%). There are a lot of possible factors affecting people’s choice this year, one guess is that ability to handle COVID-19 period, whether a rapid pandemic response or is made, can either hold or change the public opinions. Also, disparities in races, like the anti-racism protests lasted two months from May,  may be taken into consideration as well.
 
-
-
-The building of this model gives society a timely and socially effect. As in the political field, voting for the two candidates can be a popular subject and news. The prediction of the model might affect public opinion. Predicting people's choices can be a timely and costly process, however, with the given data and a properly built model, the prediction will help people see how their choices affect the elections and notice the importance of personal choices. Even the data used in the model are not representative enough and are not collected by ourselves, it can let society have an idea of what the predicted result is. The social effect of such a model is great and relevant.
 
 ## Weaknesses
 One weakness that can be identified in our model is that due to the unmatch between the census data and the sample data, many variables that contain detailed information are being merged into smaller and more general divisions, which can cause a loss of information. For example, there are two variables in the census data that recorded the detailed employment status and more general employment status. We chose the more general variable due to the mismatch between the detailed employment status in the census and the sample data. 
