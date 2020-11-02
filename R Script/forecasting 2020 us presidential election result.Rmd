@@ -26,13 +26,12 @@ census_data <- read_csv("census_data.csv")
 ```
 
 # Model
-The interest for our study is to predict the proportion of people who would vote for Donald Trump along with he proportion of people who would vote for Joe Biden in the upcoming 2020 presidential election. To accomplish this, We would adopt two logistic regression models with the binary response variable indicating people's will whether to vote for Trump/Biden. The model is built using R[@citeR], and we use packages:  broom[@citeBroom] and gridExtra[@citegridExtra].
+The interest of our study is to predict the proportion of people who would vote for Donald Trump along with the proportion of people who would vote for Joe Biden in the upcoming 2020 presidential election. To accomplish this, We would adopt two logistic regression models with the binary response variable indicating people's will whether to vote for Trump/Biden. The model is built using R[@citeR], and we use packages:  broom[@citeBroom] and gridExtra[@citegridExtra].
 
-In addition, we are using the multi-regression post-stratification(MRP) technique to arrive at the estimate of our interest. Detailed procedure would be described in the subsection: Post-Stratification. Data sets used are the survey data collected by the Voter Study Group[@citeSurveyData] and the census data[@citeCensusData] collected by the IPUMS USA.
+In addition, we are using the multi-regression post-stratification(MRP) technique to arrive at the estimate of our interest. A detailed procedure would be described in the subsection: Post-Stratification. Data sets used are the survey data collected by the Voter Study Group[@citeSurveyData] and the census data[@citeCensusData] collected by the IPUMS USA.
 
 ## Model Specifics
-
-As mentioned previously, we would adopt a logistic regression model to find the estimate for the proportion of voters who will vote for our two candidates. We are specifically choosing variables of *employment status*, *gender*, *race*, *household income*, *education level* and *age group*. 
+As mentioned previously, we would adopt a logistic regression model to find the estimate for the proportion of voters who will vote for our two candidates. We are specifically choosing variables of *employment status*, *gender*, *race*, *household income*, *education level*, and *age group*. 
 
 The model is defined by: $$log(\frac{\hat{p}}{1-\hat{p}}) = \hat{\beta_0} + \hat{\beta_1} *x_{employment} +\hat{\beta_2}*x_{gender} +\hat{\beta_3}*x_{race}+\hat{\beta_4}*x_{income} + \hat{\beta_5}*x_{education} + \hat{\beta_6}*x_{age}$$ with each $x_{variable}$ representing corresponding predictor variable, and each $\hat{\beta_i}$ representing the relative change in log odds as the value for the predictor variable increases by an additional unit. Furthermore, $log(\frac{\hat{p}}{1-\hat{p}})$ is the defined log odds rather than probability, so transformation on the log odds would be needed to find the corresponding $\hat{p}$.
 
@@ -48,8 +47,7 @@ detach(survey_data)
 ```
 
 ## Post-Stratification 
-
-Obviously it would be hard to obtain a census data on how each US citizen is going to vote in the election, as the data collecting process would be extremely costly and time-consuming. With the sample data collected which consists of 6,479 observations, we want to form a representative sample to yield a meaningful analysis that could apply well to the general population. The sample size we obtained is really small compared to the total population of US citizens. To compensate for the potential non-representativeness, we want to adopt the post-stratification technique.
+Obviously, it would be hard to obtain a census data on how each US citizen is going to vote in the election, as the data collecting process would be extremely costly and time-consuming. With the sample data collected which consists of 6,479 observations, we want to form a representative sample to yield a meaningful analysis that could apply well to the general population. The sample size we obtained is really small compared to the total population of US citizens. To compensate for the potential non-representativeness, we want to adopt the post-stratification technique.
 
 We intend to choose the number of variables so that we can obtain a sample as representative as possible meanwhile not over-complicating the model. So we limit the number of variables to 6 but they are all sound categories that could serve to split the population and produce meaningful results. For example, the *gender* and *age group* are both basic information pertaining to a certain individual. Variables like *employment status* and *education level* contain more specific information(i.e. more unique features to define a person's demographic than basic information does). Thus, we use the selected variables to split the cells. 
 
@@ -57,7 +55,6 @@ What post-stratification allows us to do is that we can partition the population
 
 
 ```{r, include=FALSE}
-
 # Find estimate for log odds for each cell
 census_data$logodds_estimate <-
   logitm %>%
@@ -90,20 +87,19 @@ yps_b
 ```
 
 ## Notes on Data Cleaning Process
-We use Lablled[@citeLabelled] to help clean the data. We create two binary variables in the survey data, namely *vote_trump* and *vote_biden* in the survey data. Taking *vote_trump* for instance, we mutates all the responses for *vote_2020* that is "Donald Trump" to have the value 1, and 0 otherwise. The same procedure applied to *vote_biden*. One thing to notice is that in the *vote_2020*, there are responses of "I am not sure/don't know", which we also signed a value 0.
+We use Lablled[@citeLabelled] to help clean the data. We create two binary variables in the survey data, namely *vote_trump* and *vote_biden* in the survey data. Taking *vote_trump* for instance, we mutate all the responses for *vote_2020* that is "Donald Trump" to have the value 1, and 0 otherwise. The same procedure applied to *vote_biden*. One thing to notice is that in the *vote_2020*, there are responses of "I am not sure/don't know", which we also signed a value 0.
 
-In order to let the model built on the survey data to successfully yield desired estimates, we need to clean up both the survey data and census data so that each variable we choose contains the same levels of categorical values. For instance, we would like to have the *gender* variable in both the survey and census data to have two levels, namely *male* and *female*. So we would need to ensure that this is indeed the case in both data sets, so the model built from the survey data is be able to predict the estimates based on the input of census data. 
+In order to let the model built on the survey data successfully yield desired estimates, we need to clean up both the survey data and census data so that each variable we choose contains the same levels of categorical values. For instance, we would like to have the *gender* variable in both the survey and census data to have two levels, namely *male* and *female*. So we would need to ensure that this is indeed the case in both data sets, so the model built from the survey data is being able to predict the estimates based on the input of census data. 
 
-However, when merging groups to match the groups in the other data set, there is an unevitable loss of information. We are trying to complete this cleaning process with the reservation of important details the variables contain. Below, we mention some of the cleaning processes when we decide to merge some groups together, with detailed reasoning outlined in the Appendix - Notes on Data Cleaning Process-detailed:
+However, when merging groups to match the groups in the other data set, there is an inevitable loss of information. We are trying to complete this cleaning process with the reservation of important details the variables contain. Below, we mention some of the cleaning processes when we decide to merge some groups together, with detailed reasoning outlined in the Appendix - Notes on Data Cleaning Process-detailed:
 
 1. For *education*, we combine some of the small groups(population) into larger groups(sample) instead of keeping all the small groups. We end up with having  11 levels for this variable.
-2. Considering variable *race_ethnicity*, voters with different races may affect their voting decisions. We combine some small groups(sample) of variables into larger groups(population), and we end up with having 7 different levels.
+2. Considering variable *race_ethnicity*, voters with different races may affect their voting decisions. We combine some small groups(sample) of variables into larger groups(population), and we end up having 7 different levels.
 3. Considering *age_group* as a possible factor, people at different ages with different experiences might affect their voting choices, and we end up with 8 groups.
 4. For *employment*, we have combined the more specific divisions (sample) into a more general division (population). And we end up having 3 levels for this variable.
 
 
 # Results
-
 Note: Here we are showing the first few rows of the regression output. For the complete tables of output, please refer to the Appendix for table 1 and table 2.
 
 Table 1: Logstic regression output for predicting proportion of votes for Donald Trump
@@ -115,10 +111,11 @@ head(trump_result)
 yps
 ```
 
-Table 1 shows the model output for voting Trump prediction. We get the coefficients for the regression equation, including the parameters of interest like intercepts and slopes for each factor). Estimated intercept for regression equation here is -0.1809. Estimated values for slope parameters vary based on different fields and different cells. Male increases the log odds while female does not have contributions in this cell. Also, unemployed citizens lowered the result as well. In race and ethnicity fields, races except white have lowered the expected change in log odds of Trump winning the election; other factors like education and employment have lowered the log odds as well. People from different age groups contribute to the log odds of Trump winning the election greater or lesser. One thing is worth mentioning is that not all classes contribute to the expected log odds of winning, income of a family only between 200,000 to 249,999 U.S. dollars, 250,000 U.S. dollars above contribute, the others somewhat decrease the log odds. Finally, by extracting the probability from log odds and aggregating estimates from each cell. The estimated probability of Trump winning the election is 0.3897. 
+Table 1 shows the model output for voting Trump prediction. We get the coefficients for the regression equation, including the parameters of interest like intercepts and slopes for each factor). The estimated intercept for the regression equation here is -0.1809. Estimated values for slope parameters vary based on different fields and different cells. 
 
+Male increases the log odds while the female does not have contributions in this cell. Also, unemployed citizens lowered the result as well. In race and ethnicity fields, races except white have lowered the expected change in log odds of Trump winning the election; other factors like education and employment have lowered the log odds as well. People from different age groups contribute to the log odds of Trump winning the election greater or lesser. 
 
-(Table 1 shows the coefficients of variables and the intercept for voting Trump predicition.The estimated intercept for regression equation here is -0.1809. Since the variables have different level, the coefficients correspond to each level of the variable, for example, male increases the log odds while female does not have contributions in this cell. Positive coefficients show an increase in the log odds of Trump winning, and the larger the absolute value of the coefficient is, the more effect is has on the log odds.)
+One thing is worth mentioning is that not all classes contribute to the expected log odds of winning, the income of a family only between 200,000 to 249,999 U.S. dollars, 250,000 U.S. dollars above contribute, the others somewhat decrease the log odds. Finally, by extracting the probability from log odds and aggregating estimates from each cell. The estimated probability of Trump winning the election is 0.3897. 
 
 
 Table 2: Logistic regression output for predicting proportion of votes for Joe Biden
@@ -129,9 +126,9 @@ head(biden_result)
 yps_b
 ```
 
-Table 2 shows the logistic model output for voting Biden prediction. We use exactly the same factors to predict. The estimated intercept for the regression model is -0.5952. Contrary to what we got in predicting Trump's winning probability, unemployed/not in labor citizens rises log odds output, and males decline it. Moreover, the race factor contributes but age groups factor decreases the output. College degree and Master degree is likely to increase the odds. For different income groups, only a few groups may lower the odds like income ranging from 175,000 to 199,999 U.S. dollars and above 250,000 U.S. dollars. The estimated probability of voting for Biden more than Trump a little, which is 0.4062.
+Table 2 shows the logistic model output for voting Biden prediction. We use exactly the same factors to predict. The estimated intercept for the regression model is -0.5952. Contrary to what we got in predicting Trump's winning probability, unemployed/not in labor citizens rises log-odds output, and males decline it. Moreover, the race factor contributes but the age groups factor decreases the output. A College degree and Master's degree is likely to increase the odds. For different income groups, only a few groups may lower the odds like income ranging from 175,000 to 199,999 U.S. dollars and above 250,000 U.S. dollars. The estimated probability of voting for Biden more than Trump a little, which is 0.4062.
 
-The P-value for each factors in both logistic models are less than 0.005.
+The P-value for each factor in both logistic models is less than 0.005.
 
 
 ```{r, echo=FALSE, message=FALSE}
@@ -142,22 +139,23 @@ survey_data <- survey_data %>%
   filter(!is.na(vote_trump)) %>% 
   filter(!is.na(vote_biden))
 
+# plot bar plot for employment vs. vote intention 
 plot1<- survey_data %>% 
   ggplot(aes(x = employment, fill = vote_2020))+
   geom_bar()+
   labs(title = "Graph 1: Bar Plot for Employment and Vote Intention")
 
+# plot bar plot for gender vs. vote intention
 plot2 <- survey_data%>% 
   ggplot(aes(x = gender, fill = vote_2020))+
   geom_bar()+
   labs(title = "Graph 2: Bar Plot for Gender and Vote Intention")
 grid.arrange(plot1, plot2, nrow=2)
-
 ```
 
-In Graph 1, the bar plot shows the porportion of people voting for Trump and Biden within each employment status. The precise proportion number is summarized in table3 below. Visually, within the three employment statues, voting for Trump and voting for Biden have similar proportions, and small proportions for others.
+In Graph 1, the bar plot shows the proportion of people voting for Trump and Biden within each employment status. The precise proportion number is summarized in table3 below. Visually, within the three employment statues, voting for Trump and voting for Biden have similar proportions and small proportions for others.
 
-Graph 2 above have shown the numbers as a visual bar plot. It has shown that in the female group, females voting for Biden have the highest proportion, then second highest voting for Trump, with small proportions saying others. The male group has males voting for Trump being the highest proportion, then second highest for voting for Biden, and small proportions for others.
+Graph 2 above have shown the numbers as a visual bar plot. It has shown that in the female group, females voting for Biden have the highest proportion, then second-highest voting for Trump, with small proportions saying others. The male group has males voting for Trump being the highest proportion, then second-highest for voting for Biden, and small proportions for others.
 
 
 Table 3: Proportion of people voting for Trump or Biden within each employment group
@@ -175,10 +173,10 @@ vote_b = emp_b$vote_b
 cbind(emp_t, vote_b)
 ```
 
-
 Table 4: Proportion of people voting for Trump or Biden within each gender group
 
 ```{r, echo=FALSE, message=FALSE}
+# display the table for proportion of people in different gender group that would for Trump/Biden
 gender_t <- survey_data %>% 
   group_by(gender) %>% 
   summarise(vote_t = mean(vote_trump))
@@ -190,18 +188,20 @@ vote_b1 <- gender_b$vote_b
 cbind(gender_t, vote_b1)
 ```
 
-Table 3 shows that out of all employed people, 0.40 or 40% of them vote for Trump and 0.417 or 41.7% vote for Biden, and the other divisions are shown in Graph 1 (Bar plot for Employment and Vote Intention). Out of all people not in labor force, 0.377 vote for Trump and 0.429 vote for Biden. Lastly out of all unemployed, 0.314 vote for Trump and 0.411 vote for Biden.
+Table 3 shows that out of all employed people, 0.40 or 40% of them vote for Trump and 0.417 or 41.7% vote for Biden, and the other divisions are shown in Graph 1 (Bar plot for Employment and Vote Intention). Out of all people not in the labor force, 0.377 votes for Trump and 0.429 votes for Biden. Lastly out of all unemployed, 0.314 votes for Trump and 0.411 votes for Biden.
 
 The precise proportion of people within each gender group voting for Trump and Biden are summarized in table 4. Out of all females, 0.32 (or 32%) vote for Trump and 0.46 vote for Biden. Within the males, 0.45 vote for Trump and 0.38 vote for Biden.
+
 
 # Discussion
 
 ## Summary
-In this study, we focus on the MRP technique to produce an estimate for the proportion of voters intending to vote for Donald Trump or for Joe Biden in the upcoming 2020 presidential election. We start off by reading in and cleaning the survey and census data to ensure that the variables in both data sets contain the same sets of levels for our model to yield prediction. After that, we fit in two logistic regression models to the survey data with the predictor and response variables identified previously. Lastly, we apply this model to the census data which already consists of splitted demographic cells to yield estimates for the proportion of voters in each cell and aggregate our calculation to the population level to obtain the final estimate. A quick glimpse of what the cells look like eventually is as follows:
+In this study, we focus on the MRP technique to produce an estimate for the proportion of voters intending to vote for Donald Trump or for Joe Biden in the upcoming 2020 presidential election. We start off by reading in and cleaning the survey and census data to ensure that the variables in both data sets contain the same sets of levels for our model to yield prediction. After that, we fit in two logistic regression models to the survey data with the predictor and response variables identified previously. Lastly, we apply this model to the census data which already consists of split demographic cells to yield estimates for the proportion of voters in each cell and aggregate our calculation to the population level to obtain the final estimate. A quick glimpse of what the cells look like eventually is as follows:
 
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 head(census_data)
 ```
+
 We finally arrived at two estimates for the proportion of voters: $\hat{y}^{PS}_{Trump} = 0.39$ and $\hat{y}^{PS}_{Biden} = 0.41$.
 
 ## Conclusion
@@ -213,22 +213,21 @@ We finally arrived at two estimates for the proportion of voters: $\hat{y}^{PS}_
 The building of this model gives society a timely and socially effect. As in the political field, voting for the two candidates can be a popular subject and news. The prediction of the model might affect public opinion. Predicting people's choices can be a timely and costly process, however, with the given data and a properly built model, the prediction will help people see how their choices affect the elections and notice the importance of personal choices. Even the data used in the model are not representative enough and are not collected by ourselves, it can let society have an idea of what the predicted result is. The social effect of such a model is great and relevant.
 
 ## Weaknesses
-
 One weakness that can be identified in our model is that due to the unmatch between the census data and the sample data, many variables that contain detailed information are being merged into smaller and more general divisions, which can cause a loss of information. For example, there are two variables in the census data that recorded the detailed employment status and more general employment status. We chose the more general variable due to the mismatch between the detailed employment status in the census and the sample data. 
 
 ## Next Steps
-
 Going from the weakness section, the merging of groups within variables can make the model less informative. The next step to make a better model is to see if there are data sets (sample data and census data) that have variables that include more similar group divisions than the currently used data sets.
 
+Also, we included 6 variables in our analysis to split the demographic cells. The result we get is sound and solid. However, if more potential variables can be included in this model, the cells could be more inclusive and yield a even more convincing result, since it helps further classify the population.
 
 ## Concluding Remark
-2020 has been a quite special year for a range of different reasons. The Corona virus pandemic is certainly one of them, and it is still an ongoing issue. This pandemic has changed everything including how people live their life and how to cope with any emerging challenges faced by them. With this situation in mind, the dynamic for the upoming 2020 US presidential election might also alter, as @citeLichtman mentioned in his journal. As people are currently more focusing on the issue of public health, health care and racial inequality, they may put more emphasis on the traits they want their president to have instead of focusing more on the economic perspective of the country. The vote result may well turn out to be a vote for supporting whoever the citizens think as the most trustworthy to lead them through the pandemic. 
-
+2020 has been a quite special year for a range of different reasons. The Coronavirus pandemic is certainly one of them, and it is still an ongoing issue. This pandemic has changed everything including how people live their lives and how to cope with any emerging challenges faced by them. With this situation in mind, the dynamic for the upcoming 2020 US presidential election might also alter, as @citeLichtman mentioned in his journal. As people are currently more focusing on the issue of public health, health care, and racial inequality, they may put more emphasis on the traits they want their president to have instead of focusing more on the economic perspective of the country. The vote result may well turn out to be a vote for supporting whoever the citizens think as the most trustworthy to lead them through the pandemic. 
 
 \newpage
 # Appendix
 Table 1: Complete result for table 1 in the result session
 ```{r, echo=FALSE, message=FALSE}
+# print the full output of our model
 print(trump_result, n = 50)
 ```
 
