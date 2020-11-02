@@ -15,8 +15,8 @@ library(tidyverse)
 
 # Loading in the cleaned survey Data
 # setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
-survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
-# survey_data <- read_csv("survey_data.csv")
+# survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
+survey_data <- read_csv("survey_data.csv")
 
 # Loading in the cleaned census Data
 # census_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/census_data.csv")
@@ -138,7 +138,7 @@ survey_data <- survey_data %>%
   filter(!is.na(gender)) %>% 
   filter(!is.na(vote_trump)) %>% 
   filter(!is.na(vote_biden))
-par(mfrow = c(1,2))
+par(mfrow=c(2,1))
 
 survey_data %>% 
   ggplot(aes(x = employment, fill = vote_2020))+
