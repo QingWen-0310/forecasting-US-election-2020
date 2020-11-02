@@ -25,6 +25,9 @@ survey_data <- read_csv("survey_data.csv")
 census_data <- read_csv("census_data.csv")
 ```
 
+# Note
+All relevant codes and outputs for this study are contained in the following repo:  https://github.com/QingWen-0310/forecasting-US-election-2020.git
+
 # Model
 The interest of our study is to predict the proportion of people who would vote for Donald Trump along with the proportion of people who would vote for Joe Biden in the upcoming 2020 presidential election. To accomplish this, We would adopt two logistic regression models with the binary response variable indicating people's will whether to vote for Trump/Biden. The model is built using R[@citeR], and we use packages: tidyverse[@citeTidyverse], broom[@citeBroom] and gridExtra[@citegridExtra].
 
