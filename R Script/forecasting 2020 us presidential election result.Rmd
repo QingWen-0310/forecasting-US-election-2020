@@ -4,9 +4,9 @@ subtitle: "Proportion of US Population that would vote for Donald Trump/Joe Bide
 author: "Ke Deng, Yongpeng Hua, Qihui Huang, Qing Wen"
 date: "2 November 2020"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 bibliography: references.bib
 ---
 
@@ -15,17 +15,18 @@ library(tidyverse)
 library(gridExtra)
 library(broom)
 
-# Loading in the cleaned survey Data
+# set to your own working directory
 setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
+
+# Loading in the cleaned survey Data
 survey_data <- read_csv("survey_data.csv")
 
 # Loading in the cleaned census Data
 census_data <- read_csv("census_data.csv")
-
 ```
 
 # Model
-The interest of our study is to predict the proportion of people who would vote for Donald Trump along with the proportion of people who would vote for Joe Biden in the upcoming 2020 presidential election. To accomplish this, We would adopt two logistic regression models with the binary response variable indicating people's will whether to vote for Trump/Biden. The model is built using R[@citeR], and we use packages:  broom[@citeBroom] and gridExtra[@citegridExtra].
+The interest of our study is to predict the proportion of people who would vote for Donald Trump along with the proportion of people who would vote for Joe Biden in the upcoming 2020 presidential election. To accomplish this, We would adopt two logistic regression models with the binary response variable indicating people's will whether to vote for Trump/Biden. The model is built using R[@citeR], and we use packages: tidyverse[@citeTidyverse], broom[@citeBroom] and gridExtra[@citegridExtra].
 
 In addition, we are using the multi-regression post-stratification(MRP) technique to arrive at the estimate of our interest. A detailed procedure would be described in the subsection: Post-Stratification. Data sets used are the survey data collected by the Voter Study Group[@citeSurveyData] and the census data[@citeCensusData] collected by the IPUMS USA.
 
