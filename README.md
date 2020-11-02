@@ -4,8 +4,10 @@ This repo is dedicated for the prediction of the 2020 US presidential election r
 
 The study is built upon two data sets:
 1. Survey data - collected by the Voter Study Group. Specifinally, ns20200625 is used to construct the model.
-2. Census data - collected by the IPUMS USA, University of Minnesota. Variables are selected accordingly.
+2. Census data - collected by the IPUMS USA, University of Minnesota. Variables are selected accordingly. The name of the data set saved will differ from person to person. In our case, our data is saved as usa_00001.
 
-Thank you for their diligent work on collecting massive data sets. 
+Thanks to their diligent work on collecting massive data sets. 
 
-Output includes the final report and cleaned data sets.
+Sections included in this repo:
+1. R Script: contain all the relevant cleaning code and the code for reproducing our ourput pdf.
+2. Output: contain the output pdf for the report and the cleaned datasets.
