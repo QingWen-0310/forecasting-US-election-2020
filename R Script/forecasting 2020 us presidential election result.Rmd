@@ -14,13 +14,12 @@ bibliography: references.bib
 library(tidyverse)
 library(gridExtra)
 library(broom)
+# setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
 
 # Loading in the cleaned survey Data
-# setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
-#survey_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/survey_data.csv")
 survey_data <- read_csv("survey_data.csv")
+
 # Loading in the cleaned census Data
-# census_data <- read_csv("C:/Users/10128/Desktop/STA304/Problem Set 3/output/census_data.csv")
 census_data <- read_csv("census_data.csv")
 
 ```
