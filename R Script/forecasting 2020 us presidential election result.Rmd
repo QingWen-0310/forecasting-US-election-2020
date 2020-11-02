@@ -16,7 +16,7 @@ library(gridExtra)
 library(broom)
 
 # Loading in the cleaned survey Data
-
+setwd("C:/Users/10128/Desktop/STA304/Problem Set 3/output")
 survey_data <- read_csv("survey_data.csv")
 
 # Loading in the cleaned census Data
@@ -206,7 +206,9 @@ We finally arrived at two estimates for the proportion of voters: $\hat{y}^{PS}_
 ## Conclusion
 The building of this model gives society a timely and social effect. As in the political field, voting for the two candidates can be a popular subject and news. So we build models to roughly predict the result. Predicting people's choices can be a tricky process. However, with the given data and a properly built model, the prediction will help people see how their choices potentially affect the elections and notice the importance of personal choices. Even the data used in the model are not sufficiently representative and are not collected by ourselves, it can let society have an idea of what the predicted result is. The social effect of such a model is great and relevant.
 
-From the model we generate, it gives us a clear view of the advantages and disadvantages in different fields of two U.S. presidential candidates by looking at the log-odds from the coefficient table. Some of the categories like races, employment, and education, do impose negative effects on the expected log odds in Trump’s election model while increasing the log odds in Biden’s model and also affect the final probability we predict later. It is hard to come up with a pattern in other categories like household income and age groups, as these cells have brought the log odds up or down in a small amount, so we could not see a huge difference between these two categories. Also, the bar plots showing the precise proportion of citizens’ voting intention help us confirm our previous result, and give us a detailed view of the difference of proportions in some categories.  
+From the model we generate, it gives us a clear view of the advantages and disadvantages in different fields of two U.S. presidential candidates by looking at the log-odds from the coefficient table. Some of the categories like *races* and *employment* do impose negative effects on the expected log odds in Trump’s election model while increasing the log odds in Biden’s model. Variable *gender* seems to increase log odds for Trump while decreasing log odds for Biden. Therefore, we make bar plots for two of the previous factors, namey *gender* and *employment*. As shown in table 3 and 4 in the result section, *males* are more likely to vote for Trump while *females* are more likely to vote for Biden. On the other hand, people in either *employed*, *unemployed*, or *not in labor force* all have a higher tendency to vote for Biden than for Trump. 
+
+It is hard to come up with a pattern in other categories like household income and age groups, as these cells have brought the log odds up or down in a small amount, so we could not see a huge difference between these two categories. Also, the bar plots showing the precise proportion of citizens’ voting intention help us confirm our previous result, and give us a detailed view of the difference of proportions in some categories.  
 
 The probability of winning the election does not have much difference between the two candidates, but Biden has higher possibilities of winning the election based on the census and survey data we have (39% compared to 41% for Trump). There are a lot of possible factors affecting people’s choice this year, one guess is that ability to handle the COVID-19 period, whether a rapid pandemic response or is made, can either hold or change the public opinions. Also, disparities in races, like the anti-racism protests lasted two months from May,  may be taken into consideration as well.
 
