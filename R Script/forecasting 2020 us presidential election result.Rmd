@@ -110,26 +110,24 @@ Table 1: Logistic regression output for predicting proportion of votes for Donal
 ```{r, message=FALSE, echo=FALSE}
 # model output in a tidy table
 trump_result <- broom::tidy(logitm)
-head(trump_result)
-yps
+knitr::kable(head(trump_result))
 ```
 
 Table 1 shows the model output for voting Trump prediction. We get the coefficients for the regression equation, including the parameters of interest like intercepts and slopes for each factor). The estimated intercept for the regression equation here is -0.1809. Estimated values for slope parameters vary based on different fields and different cells. 
 
 Male increases the log odds while the female does not have contributions in this cell. Also, unemployed citizens lowered the result as well. In race and ethnicity fields, races except white have lowered the expected change in log odds of Trump winning the election; other factors like education and employment have lowered the log odds as well. People from different age groups contribute to the log odds of Trump winning the election greater or lesser. 
 
-One thing is worth mentioning is that not all classes contribute to the expected log odds of winning, the income of a family only between 200,000 to 249,999 U.S. dollars, 250,000 U.S. dollars above contribute, the others somewhat decrease the log odds. Finally, by extracting the probability from log odds and aggregating estimates from each cell. The estimated probability of Trump winning the election is 0.3897. 
+One thing is worth mentioning is that not all classes contribute to the expected log odds of winning, the income of a family only between 200,000 to 249,999 U.S. dollars, 250,000 U.S. dollars above contribute, the others somewhat decrease the log odds. Finally, by extracting the probability from log odds and aggregating estimates from each cell. The estimated probability of Trump winning the election is `r round(yps,2)`. 
 
 
 Table 2: Logistic regression output for predicting proportion of votes for Joe Biden
 
 ```{r, echo=FALSE, message=FALSE}
 biden_result <- broom::tidy(logitmb)
-head(biden_result)
-yps_b
+knitr::kable(head(biden_result))
 ```
 
-Table 2 shows the logistic model output for voting Biden prediction. We use exactly the same factors to predict. The estimated intercept for the regression model is -0.5952. Contrary to what we got in predicting Trump's winning probability, unemployed/not in labor citizens rises log-odds output, and males decline it. Moreover, the race factor contributes but the age groups factor decreases the output. A College degree and Master's degree is likely to increase the odds. For different income groups, only a few groups may lower the odds like income ranging from 175,000 to 199,999 U.S. dollars and above 250,000 U.S. dollars. The estimated probability of voting for Biden more than Trump a little, which is 0.4062.
+Table 2 shows the logistic model output for voting Biden prediction. We use exactly the same factors to predict. The estimated intercept for the regression model is -0.5952. Contrary to what we got in predicting Trump's winning probability, unemployed/not in labor citizens rises log-odds output, and males decline it. Moreover, the race factor contributes but the age groups factor decreases the output. A College degree and Master's degree is likely to increase the odds. For different income groups, only a few groups may lower the odds like income ranging from 175,000 to 199,999 U.S. dollars and above 250,000 U.S. dollars. The estimated probability of voting for Biden more than Trump a little, which is `r round(yps_b,2)`.
 
 The P-value for each factor in both logistic models is less than 0.005.
 
@@ -160,7 +158,7 @@ In Graph 1, the bar plot shows the proportion of people voting for Trump and Bid
 
 Graph 2 above have shown the numbers as a visual bar plot. It has shown that in the female group, females voting for Biden have the highest proportion, then second-highest voting for Trump, with small proportions saying others. The male group has males voting for Trump being the highest proportion, then second-highest for voting for Biden, and small proportions for others.
 
-
+\newpage
 Table 3: Proportion of people voting for Trump or Biden within each employment group
 
 ```{r, echo=FALSE, message=FALSE}
@@ -173,7 +171,7 @@ emp_b <- survey_data %>%
   group_by(employment) %>% 
   summarise(vote_b = mean(vote_biden))
 vote_b = emp_b$vote_b
-cbind(emp_t, vote_b)
+knitr::kable(cbind(emp_t, vote_b))
 ```
 
 Table 4: Proportion of people voting for Trump or Biden within each gender group
@@ -188,7 +186,7 @@ gender_b <- survey_data %>%
   group_by(gender) %>% 
   summarise(vote_b = mean(vote_biden))
 vote_b1 <- gender_b$vote_b
-cbind(gender_t, vote_b1)
+knitr::kable(cbind(gender_t, vote_b1))
 ```
 
 Table 3 shows that out of all employed people, 0.40 or 40% of them vote for Trump and 0.417 or 41.7% vote for Biden, and the other divisions are shown in Graph 1 (Bar plot for Employment and Vote Intention). Out of all people not in the labor force, 0.377 votes for Trump and 0.429 votes for Biden. Lastly out of all unemployed, 0.314 votes for Trump and 0.411 votes for Biden.
@@ -232,12 +230,12 @@ Also, we included 6 variables in our analysis to split the demographic cells. Th
 Table 1: Complete result for table 1 in the result session
 ```{r, echo=FALSE, message=FALSE}
 # print the full output of our model
-print(trump_result, n = 50)
+knitr::kable(trump_result, n = 50)
 ```
 
 Table 2: Complete result for table 2 in the result session
 ```{r, echo=FALSE}
-print(biden_result, n = 50)
+knitr::kable(biden_result,n = 50)
 ```
 
 Notes on Data Cleaning Process-Detailed:
